@@ -70,9 +70,17 @@ const string VowelHelper::symbolForVowel(const string& vowel, unsigned int tone,
         return usePOJStyleOUAndNN ? string("\xe2\x81\xbf") : vowel; // ⁿ
     }
     
+    string coda;    // for processing oo/OO/Oo/oO only
     string lookupString = vowel;
-    if (usePOJStyleOUAndNN && (lowercasedVowel == "ou" || lowercasedVowel == "oo")) {
-        lookupString = ((vowel[0] == 'O') ? "Q" : "q");
+    
+    if (lowercasedVowel == "ou" || lowercasedVowel == "oo") {
+        if (usePOJStyleOUAndNN) {
+            lookupString = ((vowel[0] == 'O') ? "Q" : "q");
+        }
+        else {
+            lookupString = string(1, vowel[0]);
+            coda = string(1, vowel[1]);
+        }
     }
     
     if (composeII && lowercasedVowel == "ii") {
@@ -90,7 +98,7 @@ const string VowelHelper::symbolForVowel(const string& vowel, unsigned int tone,
         return "";
     }
     
-    return (*j).second;    
+    return coda.length() ? ((*j).second + coda) : (*j).second;
 }
 
 char VowelHelper::diacriticShorthandFromTone(unsigned int tone)
