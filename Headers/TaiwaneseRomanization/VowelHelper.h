@@ -58,7 +58,8 @@ namespace Formosa {
         
         class VowelHelper {
         public:
-            static const string symbolForVowel(const string& vowel, unsigned int tone, bool usePOJStyleOUAndNN, bool composeII = true);
+            static const string symbolForVowel(const string& vowel, unsigned int tone, bool usePOJStyleOUAndNN, bool usePOJStyleNinthToneMark = false, bool composeII = false);
+
             static char diacriticShorthandFromTone(unsigned int tone);
             static unsigned int toneFromDiacriticShorthand(char shorthand);
             static bool isDiacriticShorthand(char shorthand);

@@ -35,7 +35,7 @@ map<string, map<unsigned int, string> >* VowelHelper::c_vowelTable = 0;
 map<string, string>* VowelHelper::c_toUppercasedVowelTable = 0;
 VowelDecompositionState *VowelHelper::c_groundState = 0;
 
-const string VowelHelper::symbolForVowel(const string& vowel, unsigned int tone, bool usePOJStyleOUAndNN, bool composeII)
+const string VowelHelper::symbolForVowel(const string& vowel, unsigned int tone, bool usePOJStyleOUAndNN, bool usePOJStyleNinthToneMark, bool composeII)
 {
     // This singleton instantiation is not thread safe, you've been warned
     if (!c_vowelTable) {
@@ -53,7 +53,7 @@ const string VowelHelper::symbolForVowel(const string& vowel, unsigned int tone,
     if (!realtone) {
         realtone = 1;
     }
-    else if (realtone == 9 && usePOJStyleOUAndNN) {
+    else if (realtone == 9 && usePOJStyleNinthToneMark) {
         realtone = kPOJ9thTone;
     }
     

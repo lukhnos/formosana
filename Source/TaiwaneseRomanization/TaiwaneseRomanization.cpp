@@ -136,7 +136,11 @@ const string RomanizationSymbol::setSymbol(const string& s)
 
 const string RomanizationSymbol::composedForm(bool forcePOJStyle) const
 {
-    string composed = VowelHelper::symbolForVowel(_symbol, _tone, ((_type==POJSyllable) || forcePOJStyle) ? true : false);            
+    bool usePOJStyleOUAndNN = (_type == POJSyllable) || forcePOJStyle;
+    bool usePOJStyleNinthToneMark = (_type == POJSyllable);
+    bool composeII = true;
+    
+    string composed = VowelHelper::symbolForVowel(_symbol, _tone, usePOJStyleOUAndNN, usePOJStyleNinthToneMark, composeII);
     if (!composed.length()) return _symbol;
     return composed;
 }
@@ -551,7 +555,7 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
             // if i follows a vowel, and the next vowel is u or ṳ, we put the accent on the succeeding vowel
             loudestVowel++;
         }
-        else if ((_forcePOJStyle || _inputType == POJSyllable) && loudestVowel && (_symvec[loudestVowel-1].symbolInLowerCase() == "u" || _symvec[loudestVowel-1].symbolInLowerCase() == "ii")) {
+        else if (_inputType == POJSyllable && loudestVowel && (_symvec[loudestVowel-1].symbolInLowerCase() == "u" || _symvec[loudestVowel-1].symbolInLowerCase() == "ii")) {
             // if (and only if) in POJ mode/forced POJ style, and if i precedes a vowel, and the next voewl is u or ṳ, we put the accent on the preceeding vowel
             loudestVowel--;
         }
