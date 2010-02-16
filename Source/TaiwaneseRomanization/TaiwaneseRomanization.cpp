@@ -514,9 +514,9 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
     if ((p=findSymbolPair("n", "g")) != end)
         SETLOUDEST(p);
     
-    // TODO: Check the rule here
-    if (FLV("ii")) SETLOUDEST(p);
+
     if (FLV("u")) SETLOUDEST(p);
+    if (FLV("ii")) SETLOUDEST(p); // TODO: Check the rule here
     if (FLV("i")) SETLOUDEST(p);
     if (FLV("o")) SETLOUDEST(p);
     if (FLV("e")) SETLOUDEST(p);
@@ -547,9 +547,13 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
     
     if (_symvec[loudestVowel].symbolInLowerCase()=="i")
     {
-        if (loudestVowel+1 < end)
-        {
-            if (_symvec[loudestVowel+1].symbolInLowerCase()=="u") loudestVowel++;
+        if ((loudestVowel+1 < end) && (_symvec[loudestVowel+1].symbolInLowerCase() == "u" || _symvec[loudestVowel+1].symbolInLowerCase() == "ii")) {
+            // if i follows a vowel, and the next vowel is u or ṳ, we put the accent on the succeeding vowel
+            loudestVowel++;
+        }
+        else if ((_forcePOJStyle || _inputType == POJSyllable) && loudestVowel && (_symvec[loudestVowel-1].symbolInLowerCase() == "u" || _symvec[loudestVowel-1].symbolInLowerCase() == "ii")) {
+            // if (and only if) in POJ mode/forced POJ style, and if i precedes a vowel, and the next voewl is u or ṳ, we put the accent on the preceeding vowel
+            loudestVowel--;
         }
     }
     
@@ -798,7 +802,8 @@ RomanizationSyllable RomanizationSyllable::convertToTLSyllable()
         }
         
         syl.insertSymbolAtCursor(sym1);
-    }			
+    }
+    
     return syl;
 }
 
