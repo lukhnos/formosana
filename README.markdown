@@ -7,6 +7,8 @@ This is a C++ library for processing languages spoken in Taiwan. Currently it co
 
 In `Examples/Overview` there is a sample project with a simple Makefile. It should build on most UNIX systems, including Mac OS X. Just type `make` and press enter.
 
+If you are on Windows, a Visual Studio solution file, Overview.sln, with all necessary project files, is also supplied in the same directory. You should be able to build it with Visual Studio 2008 or Visual C++ 2008 Express Edition without any trouble. Note that the built binary is a Win32 console application with output in UTF-8. It's probably wise to pipe the output from stdout to a file and read it with a Unicode-compliant text editor. 64-bit compatibility is also checked.
+
 Take a quick look at `MandarinDemo.cpp` and `RomanizationDemo.cpp` and you'll find brief snippets on what this library can do.
 
 For example, you can build Mandarin syllables using the Bopomofo system, and convert the syllable to either composed Bopomofo stirng, or to Hanyu Pinyin:
@@ -15,15 +17,17 @@ For example, you can build Mandarin syllables using the Bopomofo system, and con
     BopomofoSyllable m(BopomofoSyllable::M), i(BopomofoSyllable::I), an(BopomofoSyllable::AN), tone4(BopomofoSyllable::Tone4);
 
     BopomofoSyllable mian4;
-    mian4 += m;
-    mian4 += i;
-    mian4 += an;
-    mian4 += tone4;
+    mian4 += m;     // now mian4 = ㄇ
+    mian4 += i;     // now mian4 = ㄇㄧ
+    mian4 += an;    // now mian4 = ㄇㄧㄢ
+    mian4 += tone4; // now mian4 = ㄇㄧㄢˋ
 
     // Output a composed Bopomofo string (UTF-8)
+    // expected output: mian4 = ㄇㄧㄢˋ
     cout << "mian4 = " << mian4.composedString() << endl;
 
     // Output a Hanyu Pinyin string
+    // expected output: mian4 = mian4
     cout << "mian4 = " << mian4.HanyuPinyinString(true, true) << endl;
 
 Conversions from the reverse direction (composed Bopomofo or Hanyu Pinyin to syllable) are also provided. Note, though, the library currently doesn't take accented form of Hanyu Pinyin. So "lan2" is ok, "lán" is not.
@@ -38,18 +42,34 @@ Holo and Hakka languages are supported via a shared class called TaiwaneseRomani
     s1.insertCharacterAtCursor('i');
     s1.insertCharacterAtCursor('o', 8); // enter a tone here
     s1.insertCharacterAtCursor('h');
+    
+    //
+    // expected output: 
+    // POJ syllable "chio̍h" converts to TL => "tsio̍h"
+    // TL syllable "puánn" converts to POJ => "poáⁿ"
+    //
     cout << "POJ syllable \"" << s1.composedForm() 
         << "\" converts to TL => \"" << s1.convertToTLSyllable().composedForm() << "\"" << endl;
     
     // transforms a composed string back to its normalized database (ASCII) form
     string composedString = "chio\xcc\x8dh"; // chio̍h
-    string databaseForm = VowelHelper::queryFormFromComposedForm(composedString);    
+    string databaseForm = VowelHelper::queryFormFromComposedForm(composedString);
+    
+    //
+    // expected output:
+    // Composed form "chio̍h" to ASCII form => "chioh8"
+    //
     cout << "Composed form \"" << composedString << "\" to ASCII form => \"" << databaseForm << "\"" << endl;
 
     
     // Converts Hakka "sṳ" (the last syllable in "Pha̍k-fa-sṳ") back to the query form
     string hakkaString = "s\xe1\xb9\xb3";   // sṳ
     string hSQF = VowelHelper::queryFormFromComposedForm(hakkaString);
+    
+    //
+    // expected output:
+    // Composed form "sṳ" to ASCII form => "sii"
+    //
     cout << "Composed form \"" << hakkaString << "\" to ASCII form => \"" << hSQF << "\"" << endl;
 
 
