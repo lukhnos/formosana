@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Formosana"
-	ProjectGUID="{AB433BD3-F3EC-47D7-9D02-AE877C5F0E7F}"
-	RootNamespace="Formosana"
+	Name="Overview"
+	ProjectGUID="{F4550EC4-F8D9-4932-A44A-10E4A41DCD74}"
+	RootNamespace="Overview"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -20,7 +20,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="4"
+			ConfigurationType="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;.\Headers&quot;;&quot;.\Headers\Mandarin&quot;;&quot;.\Headers\TaiwaneseRomanization&quot;;&quot;.\ExternalLibraries\OpenVanilla-Part\Headers&quot;"
-				PreprocessorDefinitions="MANDARIN_USE_MINIMAL_OPENVANILLA=1"
+				AdditionalIncludeDirectories="&quot;..\..\Headers&quot;;&quot;..\..\Headers\Mandarin&quot;;&quot;..\..\Headers\TaiwaneseRomanization&quot;;&quot;..\..\ExternalLibraries\OpenVanilla-Part\Headers&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -60,10 +60,17 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -75,6 +82,9 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -82,7 +92,7 @@
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="4"
+			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -105,8 +115,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;.\Headers&quot;;&quot;.\Headers\Mandarin&quot;;&quot;.\Headers\TaiwaneseRomanization&quot;;&quot;.\ExternalLibraries\OpenVanilla-Part\Headers&quot;"
-				PreprocessorDefinitions="MANDARIN_USE_MINIMAL_OPENVANILLA=1"
+				AdditionalIncludeDirectories="&quot;..\..\Headers&quot;;&quot;..\..\Headers\Mandarin&quot;;&quot;..\..\Headers\TaiwaneseRomanization&quot;;&quot;..\..\ExternalLibraries\OpenVanilla-Part\Headers&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -123,10 +133,19 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -136,6 +155,9 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -151,15 +173,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Source\Mandarin\Mandarin.cpp"
+				RelativePath=".\main.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\TaiwaneseRomanization\TaiwaneseRomanization.cpp"
+				RelativePath=".\MandarinDemo.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\TaiwaneseRomanization\VowelHelper.cpp"
+				RelativePath=".\RomanizationDemo.cpp"
 				>
 			</File>
 		</Filter>
@@ -169,19 +191,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Headers\Formosana.h"
+				RelativePath=".\MandarinDemo.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Headers\Mandarin\Mandarin.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Headers\TaiwaneseRomanization\TaiwaneseRomanization.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Headers\TaiwaneseRomanization\VowelHelper.h"
+				RelativePath=".\RomanizationDemo.h"
 				>
 			</File>
 		</Filter>
