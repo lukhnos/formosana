@@ -25,9 +25,72 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <vector>
+#include <cstdlib>
+#include "OVStringHelper.h"
 #include "Gramambular.h"
+
+using namespace OpenVanilla;
+using namespace std;
+using namespace Formosa::Gramambular;
+
+class SimpleLM : public LanguageModel
+{
+public:
+    SimpleLM(const string& inPath)
+    {
+        ifstream ifs;
+        ifs.open("SampleData.txt");
+        while (ifs.good()) {
+            string line;
+            getline(ifs, line);
+            vector<string> p = OVStringHelper::Split(line, ' ');
+            
+            if (p.size() == 3) {
+                Unigram u;
+                u.keyValue.key = p[0];
+                u.keyValue.value = p[1];
+                u.score = atof(p[2].c_str());
+                
+                m_db[p[0]].push_back(u);
+            }
+        }
+        ifs.close();        
+    }
+
+    virtual const vector<Bigram> bigramsForKeys(const string &preceedingKey, const string& key)
+    {
+        vector<Bigram>();
+    }
+    
+    virtual const vector<Unigram> unigramsForKeys(const string &key)
+    {
+        map<string, vector<Unigram> >::const_iterator f = m_db.find(key);
+        return f == m_db.end() ? vector<Unigram>() : (*f).second;
+    }
+    
+    virtual bool hasUnigramsForKey(const string& key)
+    {
+        map<string, vector<Unigram> >::const_iterator f = m_db.find(key);
+        return f != m_db.end();
+    }
+    
+protected:
+    map<string, vector<Unigram> > m_db;    
+};
 
 int main()
 {
+    SimpleLM lm("SampleData.txt");
+    
+    vector<Unigram> us = lm.unigramsForKeys("ㄋㄧㄢˊㄓㄨㄥ");
+    for (size_t i = 0 ; i < us.size() ; i++) {
+        cout << us[i].keyValue.key << ", " << us[i].keyValue.value << ", " << us[i].score << endl;
+    }
+    
+    
     return 0;
 }

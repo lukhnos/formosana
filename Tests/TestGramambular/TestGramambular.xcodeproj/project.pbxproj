@@ -17,6 +17,9 @@
 		6A935E8B1133007F0095173D /* Span.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E76113300600095173D /* Span.h */; };
 		6A935E8C1133007F0095173D /* Unigram.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E77113300600095173D /* Unigram.h */; };
 		6A935E8D1133007F0095173D /* Walker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E78113300600095173D /* Walker.h */; };
+		6A935F1C1133152E0095173D /* OVStringHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935F191133152E0095173D /* OVStringHelper.h */; };
+		6A935F1D1133152E0095173D /* OVUTF8Helper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935F1A1133152E0095173D /* OVUTF8Helper.h */; };
+		6A935F1E1133152E0095173D /* OVWildcard.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935F1B1133152E0095173D /* OVWildcard.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +34,9 @@
 		6A935E77113300600095173D /* Unigram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unigram.h; sourceTree = "<group>"; };
 		6A935E78113300600095173D /* Walker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Walker.h; sourceTree = "<group>"; };
 		6A935E7C1133006D0095173D /* TestBed */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestBed; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A935F191133152E0095173D /* OVStringHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OVStringHelper.h; sourceTree = "<group>"; };
+		6A935F1A1133152E0095173D /* OVUTF8Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OVUTF8Helper.h; sourceTree = "<group>"; };
+		6A935F1B1133152E0095173D /* OVWildcard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OVWildcard.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +53,7 @@
 		6A7FD7B11132FFEE00AF7624 = {
 			isa = PBXGroup;
 			children = (
+				6A935F171133152E0095173D /* OpenVanilla-Part */,
 				6A935E6E113300600095173D /* Gramambular */,
 				6A7FD7BB1132FFFC00AF7624 /* TestBed.cpp */,
 				6A935E7D1133006D0095173D /* Products */,
@@ -78,6 +85,25 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6A935F171133152E0095173D /* OpenVanilla-Part */ = {
+			isa = PBXGroup;
+			children = (
+				6A935F181133152E0095173D /* Headers */,
+			);
+			name = "OpenVanilla-Part";
+			path = "../../ExternalLibraries/OpenVanilla-Part";
+			sourceTree = SOURCE_ROOT;
+		};
+		6A935F181133152E0095173D /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				6A935F191133152E0095173D /* OVStringHelper.h */,
+				6A935F1A1133152E0095173D /* OVUTF8Helper.h */,
+				6A935F1B1133152E0095173D /* OVWildcard.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -85,6 +111,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A935F1C1133152E0095173D /* OVStringHelper.h in Headers */,
+				6A935F1D1133152E0095173D /* OVUTF8Helper.h in Headers */,
+				6A935F1E1133152E0095173D /* OVWildcard.h in Headers */,
 				6A935E841133007F0095173D /* Bigram.h in Headers */,
 				6A935E851133007F0095173D /* Gramambular.h in Headers */,
 				6A935E861133007F0095173D /* Grid.h in Headers */,
