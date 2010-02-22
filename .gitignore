@@ -3,3 +3,6 @@
 *.vcproj.*.user
 Debug
 Release
+*.mode*
+*.pbxuser
+build

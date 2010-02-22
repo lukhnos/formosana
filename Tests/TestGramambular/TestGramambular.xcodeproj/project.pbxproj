@@ -1,0 +1,222 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6A935E82113300730095173D /* TestBed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A7FD7BB1132FFFC00AF7624 /* TestBed.cpp */; };
+		6A935E841133007F0095173D /* Bigram.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E6F113300600095173D /* Bigram.h */; };
+		6A935E851133007F0095173D /* Gramambular.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E70113300600095173D /* Gramambular.h */; };
+		6A935E861133007F0095173D /* Grid.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E71113300600095173D /* Grid.h */; };
+		6A935E871133007F0095173D /* KeyValuePair.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E72113300600095173D /* KeyValuePair.h */; };
+		6A935E881133007F0095173D /* LanguageModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E73113300600095173D /* LanguageModel.h */; };
+		6A935E8A1133007F0095173D /* Node.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E75113300600095173D /* Node.h */; };
+		6A935E8B1133007F0095173D /* Span.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E76113300600095173D /* Span.h */; };
+		6A935E8C1133007F0095173D /* Unigram.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E77113300600095173D /* Unigram.h */; };
+		6A935E8D1133007F0095173D /* Walker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935E78113300600095173D /* Walker.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6A7FD7BB1132FFFC00AF7624 /* TestBed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestBed.cpp; sourceTree = "<group>"; };
+		6A935E6F113300600095173D /* Bigram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bigram.h; sourceTree = "<group>"; };
+		6A935E70113300600095173D /* Gramambular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gramambular.h; sourceTree = "<group>"; };
+		6A935E71113300600095173D /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
+		6A935E72113300600095173D /* KeyValuePair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyValuePair.h; sourceTree = "<group>"; };
+		6A935E73113300600095173D /* LanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageModel.h; sourceTree = "<group>"; };
+		6A935E75113300600095173D /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		6A935E76113300600095173D /* Span.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Span.h; sourceTree = "<group>"; };
+		6A935E77113300600095173D /* Unigram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unigram.h; sourceTree = "<group>"; };
+		6A935E78113300600095173D /* Walker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Walker.h; sourceTree = "<group>"; };
+		6A935E7C1133006D0095173D /* TestBed */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestBed; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6A935E7A1133006D0095173D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6A7FD7B11132FFEE00AF7624 = {
+			isa = PBXGroup;
+			children = (
+				6A935E6E113300600095173D /* Gramambular */,
+				6A7FD7BB1132FFFC00AF7624 /* TestBed.cpp */,
+				6A935E7D1133006D0095173D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6A935E6E113300600095173D /* Gramambular */ = {
+			isa = PBXGroup;
+			children = (
+				6A935E6F113300600095173D /* Bigram.h */,
+				6A935E70113300600095173D /* Gramambular.h */,
+				6A935E71113300600095173D /* Grid.h */,
+				6A935E72113300600095173D /* KeyValuePair.h */,
+				6A935E73113300600095173D /* LanguageModel.h */,
+				6A935E75113300600095173D /* Node.h */,
+				6A935E76113300600095173D /* Span.h */,
+				6A935E77113300600095173D /* Unigram.h */,
+				6A935E78113300600095173D /* Walker.h */,
+			);
+			name = Gramambular;
+			path = ../../Headers/Gramambular;
+			sourceTree = SOURCE_ROOT;
+		};
+		6A935E7D1133006D0095173D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6A935E7C1133006D0095173D /* TestBed */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6A935E9F113300D30095173D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A935E841133007F0095173D /* Bigram.h in Headers */,
+				6A935E851133007F0095173D /* Gramambular.h in Headers */,
+				6A935E861133007F0095173D /* Grid.h in Headers */,
+				6A935E871133007F0095173D /* KeyValuePair.h in Headers */,
+				6A935E881133007F0095173D /* LanguageModel.h in Headers */,
+				6A935E8A1133007F0095173D /* Node.h in Headers */,
+				6A935E8B1133007F0095173D /* Span.h in Headers */,
+				6A935E8C1133007F0095173D /* Unigram.h in Headers */,
+				6A935E8D1133007F0095173D /* Walker.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6A935E7B1133006D0095173D /* TestBed */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A935E811133006E0095173D /* Build configuration list for PBXNativeTarget "TestBed" */;
+			buildPhases = (
+				6A935E9F113300D30095173D /* Headers */,
+				6A935E791133006D0095173D /* Sources */,
+				6A935E7A1133006D0095173D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestBed;
+			productName = TestBed;
+			productReference = 6A935E7C1133006D0095173D /* TestBed */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6A7FD7B31132FFEE00AF7624 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 6A7FD7B61132FFEE00AF7624 /* Build configuration list for PBXProject "TestGramambular" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 0;
+			mainGroup = 6A7FD7B11132FFEE00AF7624;
+			productRefGroup = 6A935E7D1133006D0095173D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6A935E7B1133006D0095173D /* TestBed */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6A935E791133006D0095173D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A935E82113300730095173D /* TestBed.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6A7FD7B41132FFEE00AF7624 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		6A7FD7B51132FFEE00AF7624 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+		6A935E7F1133006E0095173D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = TestBed;
+			};
+			name = Debug;
+		};
+		6A935E801133006E0095173D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = TestBed;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6A7FD7B61132FFEE00AF7624 /* Build configuration list for PBXProject "TestGramambular" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A7FD7B41132FFEE00AF7624 /* Debug */,
+				6A7FD7B51132FFEE00AF7624 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A935E811133006E0095173D /* Build configuration list for PBXNativeTarget "TestBed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A935E7F1133006E0095173D /* Debug */,
+				6A935E801133006E0095173D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6A7FD7B31132FFEE00AF7624 /* Project object */;
+}
