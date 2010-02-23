@@ -86,11 +86,10 @@ int main()
 {
     SimpleLM lm("SampleData.txt");
     
-    vector<Unigram> us = lm.unigramsForKeys("ㄋㄧㄢˊㄓㄨㄥ");
-    for (size_t i = 0 ; i < us.size() ; i++) {
-        cout << us[i].keyValue.key << ", " << us[i].keyValue.value << ", " << us[i].score << endl;
-    }
-    
+    string k = "ㄓㄨㄥ";
+    vector<Unigram> us = lm.unigramsForKeys(k);
+    Node n(k, us, vector<Bigram>());
+    cout << n << endl;    
     
     return 0;
 }

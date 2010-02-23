@@ -43,6 +43,33 @@ namespace Formosa {
             bool operator==(const Bigram& inAnother) const;
             bool operator<(const Bigram& inAnother) const;                        
         };
+
+        inline ostream& operator<<(ostream& inStream, const Bigram& inGram)
+        {
+            streamsize p = inStream.precision();
+            inStream.precision(6);
+            inStream << "(" << inGram.keyValue << "|" <<inGram.preceedingKeyValue  << "," << inGram.score << ")";
+            inStream.precision(p);
+            return inStream;
+        }
+
+        inline ostream& operator<<(ostream& inStream, const vector<Bigram>& inGrams)
+        {
+            inStream << "[" << inGrams.size() << "]={";
+            
+            size_t index = 0;
+            
+            for (vector<Bigram>::const_iterator gi = inGrams.begin() ; gi != inGrams.end() ; ++gi, ++index) {
+                inStream << index << "=>";
+                inStream << *gi;
+                if (gi + 1 != inGrams.end()) {
+                    inStream << ",";
+                }
+            }
+            
+            inStream << "}";
+            return inStream;
+        }
         
         inline Bigram::Bigram()
             : score(0.0)

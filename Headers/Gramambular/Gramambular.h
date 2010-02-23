@@ -29,7 +29,7 @@
 #define Gramambular_h
 
 #include "Bigram.h"
-#include "Gramambular.h"
+#include "BlockReadingBuilder.h"
 #include "Grid.h"
 #include "KeyValuePair.h"
 #include "LanguageModel.h"

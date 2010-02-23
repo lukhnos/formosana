@@ -41,8 +41,37 @@ namespace Formosa {
             double score;
             
             bool operator==(const Unigram& inAnother) const;
-            bool operator<(const Unigram& inAnother) const;            
+            bool operator<(const Unigram& inAnother) const;
+            
+            static bool ScoreCompare(const Unigram& a, const Unigram& b);
         };
+
+        inline ostream& operator<<(ostream& inStream, const Unigram& inGram)
+        {
+            streamsize p = inStream.precision();
+            inStream.precision(6);
+            inStream << "(" << inGram.keyValue << "," << inGram.score << ")";
+            inStream.precision(p);
+            return inStream;
+        }
+        
+        inline ostream& operator<<(ostream& inStream, const vector<Unigram>& inGrams)
+        {
+            inStream << "[" << inGrams.size() << "]={";
+            
+            size_t index = 0;
+            
+            for (vector<Unigram>::const_iterator gi = inGrams.begin() ; gi != inGrams.end() ; ++gi, ++index) {
+                inStream << index << "=>";
+                inStream << *gi;
+                if (gi + 1 != inGrams.end()) {
+                    inStream << ",";
+                }
+            }
+            
+            inStream << "}";
+            return inStream;
+        }
         
         inline Unigram::Unigram()
             : score(0.0)
@@ -63,6 +92,11 @@ namespace Formosa {
                 return score < inAnother.score;
             }
             return false;
+        }
+
+        bool Unigram::ScoreCompare(const Unigram& a, const Unigram& b)
+        {
+            return a.score > b.score;
         }
     };
 };

@@ -42,6 +42,12 @@ namespace Formosa {
           bool operator==(const KeyValuePair& inAnother) const;
           bool operator<(const KeyValuePair& inAnother) const;
       };
+
+      inline ostream& operator<<(ostream& inStream, const KeyValuePair& inPair)
+      {
+          inStream << "(" << inPair.key << "," << inPair.value << ")";
+          return inStream;
+      }
       
       inline bool KeyValuePair::operator==(const KeyValuePair& inAnother) const
       {

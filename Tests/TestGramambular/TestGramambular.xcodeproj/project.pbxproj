@@ -20,6 +20,7 @@
 		6A935F1C1133152E0095173D /* OVStringHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935F191133152E0095173D /* OVStringHelper.h */; };
 		6A935F1D1133152E0095173D /* OVUTF8Helper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935F1A1133152E0095173D /* OVUTF8Helper.h */; };
 		6A935F1E1133152E0095173D /* OVWildcard.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A935F1B1133152E0095173D /* OVWildcard.h */; };
+		6AEFA2BD113424DB007B8308 /* BlockReadingBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AEFA2BC113424DB007B8308 /* BlockReadingBuilder.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		6A935F191133152E0095173D /* OVStringHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OVStringHelper.h; sourceTree = "<group>"; };
 		6A935F1A1133152E0095173D /* OVUTF8Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OVUTF8Helper.h; sourceTree = "<group>"; };
 		6A935F1B1133152E0095173D /* OVWildcard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OVWildcard.h; sourceTree = "<group>"; };
+		6AEFA2BC113424DB007B8308 /* BlockReadingBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockReadingBuilder.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				6A935E6F113300600095173D /* Bigram.h */,
+				6AEFA2BC113424DB007B8308 /* BlockReadingBuilder.h */,
 				6A935E70113300600095173D /* Gramambular.h */,
 				6A935E71113300600095173D /* Grid.h */,
 				6A935E72113300600095173D /* KeyValuePair.h */,
@@ -123,6 +126,7 @@
 				6A935E8B1133007F0095173D /* Span.h in Headers */,
 				6A935E8C1133007F0095173D /* Unigram.h in Headers */,
 				6A935E8D1133007F0095173D /* Walker.h in Headers */,
+				6AEFA2BD113424DB007B8308 /* BlockReadingBuilder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
