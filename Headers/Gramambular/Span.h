@@ -29,6 +29,7 @@
 #define Span_h
 
 #include <map>
+#include <sstream>
 #include "Node.h"
 
 namespace Formosa {
@@ -43,7 +44,7 @@ namespace Formosa {
             
             const Node* nodeOfLength(size_t inLength) const;
             size_t maximumLength() const;
-            
+
         protected:
             map<size_t, Node> m_lengthNodeMap;
             size_t m_maximumLength;

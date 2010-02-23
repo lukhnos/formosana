@@ -47,7 +47,7 @@ namespace Formosa {
             const vector<KeyValuePair>& candidates() const;
             void selectCandidateAtIndex(size_t inIndex = 0, bool inFix = true);
             
-            const string& currentKey() const;
+            const string& key() const;
             const KeyValuePair currentKeyValue() const;
             
         protected:
@@ -152,7 +152,7 @@ namespace Formosa {
             m_candidateFixed = inFix;
         }        
         
-        inline const string& Node::currentKey() const
+        inline const string& Node::key() const
         {
             return m_key;
         }

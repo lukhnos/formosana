@@ -37,9 +37,12 @@ namespace Formosa {
         public:
             void clear();
             void insertNode(const Node& inNode, size_t inLocation, size_t inSpanningLength);
+            bool hasNodeAtLocationSpanningLengthMatchingKey(size_t inLocation, size_t inSpanningLength, const string& inKey);
 
             void expandGridByOneAtLocation(size_t inLocation);
             void shrinkGridByOneAtLocation(size_t inLocation);
+
+            const string dumpDOT() const;
             
         protected:
             vector<Span> m_spans;
@@ -62,7 +65,21 @@ namespace Formosa {
 
             m_spans[inLocation].insertNodeOfLength(inNode, inSpanningLength);
         }
-        
+
+        inline bool Grid::hasNodeAtLocationSpanningLengthMatchingKey(size_t inLocation, size_t inSpanningLength, const string& inKey)
+        {
+            if (inLocation > m_spans.size()) {
+                return false;
+            }
+            
+            const Node *n = m_spans[inLocation].nodeOfLength(inSpanningLength);
+            if (!n) {
+                return false;
+            }
+            
+            return inKey == n->key();
+        }
+
         inline void Grid::expandGridByOneAtLocation(size_t inLocation)
         {
             if (!inLocation || inLocation == m_spans.size()) {
@@ -93,6 +110,35 @@ namespace Formosa {
                 m_spans[i].removeNodeOfLengthGreaterThan(inLocation - i);
             }
         }
+        
+        inline const string Grid::dumpDOT() const
+        {
+            stringstream sst;
+            sst << "digraph {" << endl;
+            
+            for (size_t p = 0 ; p < m_spans.size() ; p++) {
+                const Span& span = m_spans[p];
+                for (size_t ni = 0 ; ni < span.maximumLength() ; ni++) {
+                    const Node* np = span.nodeOfLength(ni);
+                    if (np) {
+                        sst << np->key() << ";" << endl;
+                        
+                        if (p + ni < m_spans.size()) {
+                            const Span& dstSpan = m_spans[p+ni];
+                            for (size_t q = 0 ; q < dstSpan.maximumLength() ; q++) {
+                                const Node *dn = dstSpan.nodeOfLength(q);
+                                if (dn) {
+                                    sst << np->key() << " -> " << dn->key() << ";" << endl;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            sst << "}" << endl;
+            return sst.str();
+        }        
     };
 };
 
