@@ -38,6 +38,9 @@ namespace Formosa {
             void clear();
             void insertNode(const Node& inNode, size_t inLocation, size_t inSpanningLength);
 
+            void expandGridByOneAtLocation(size_t inLocation);
+            void shrinkGridByOneAtLocation(size_t inLocation);
+            
         protected:
             vector<Span> m_spans;
         };
@@ -58,6 +61,37 @@ namespace Formosa {
             }
 
             m_spans[inLocation].insertNodeOfLength(inNode, inSpanningLength);
+        }
+        
+        inline void Grid::expandGridByOneAtLocation(size_t inLocation)
+        {
+            if (!inLocation || inLocation == m_spans.size()) {
+                m_spans.insert(m_spans.begin() + inLocation, Span());
+            }
+            else {
+                m_spans.insert(m_spans.begin() + inLocation, Span());
+                
+                size_t s = m_spans.size();
+                for (size_t i = 0 ; i < inLocation ; i++) {
+                    // zaps overlapping spans
+                    m_spans[i].removeNodeOfLengthGreaterThan(inLocation - i);
+                }
+            }
+        }
+        
+        inline void Grid::shrinkGridByOneAtLocation(size_t inLocation)
+        {
+            if (inLocation >= m_spans.size()) {
+                return;
+            }
+            
+            m_spans.erase(m_spans.begin() + inLocation);
+
+            size_t s = m_spans.size();
+            for (size_t i = 0 ; i < inLocation ; i++) {
+                // zaps overlapping spans
+                m_spans[i].removeNodeOfLengthGreaterThan(inLocation - i);
+            }
         }
     };
 };

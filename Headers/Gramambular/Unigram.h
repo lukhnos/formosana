@@ -57,7 +57,7 @@ namespace Formosa {
         
         inline ostream& operator<<(ostream& inStream, const vector<Unigram>& inGrams)
         {
-            inStream << "[" << inGrams.size() << "]={";
+            inStream << "[" << inGrams.size() << "]=>{";
             
             size_t index = 0;
             

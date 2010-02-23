@@ -35,30 +35,58 @@ namespace Formosa {
     namespace Gramambular {
         class Span {
         public:
+            Span();
+
             void clear();
             void insertNodeOfLength(const Node& inNode, size_t inLength);
-            void removeNodeOfLength(size_t inLength);
+            void removeNodeOfLengthGreaterThan(size_t inLength);
             
             const Node* nodeOfLength(size_t inLength) const;
             size_t maximumLength() const;
             
         protected:
             map<size_t, Node> m_lengthNodeMap;
+            size_t m_maximumLength;
         };
+        
+        inline Span::Span()
+            : m_maximumLength(0)
+        {
+        }
         
         inline void Span::clear()
         {
             m_lengthNodeMap.clear();
+            m_maximumLength = 0;
         }
         
         inline void Span::insertNodeOfLength(const Node& inNode, size_t inLength)
         {
             m_lengthNodeMap[inLength] = inNode;
+            if (inLength > m_maximumLength) {
+                m_maximumLength = inLength;
+            }
         }
         
-        inline void Span::removeNodeOfLength(size_t inLength)
+        inline void Span::removeNodeOfLengthGreaterThan(size_t inLength)
         {
-            m_lengthNodeMap.erase(inLength);
+            if (inLength > m_maximumLength) {
+                return;
+            }
+            
+            size_t max = 0;
+            for (map<size_t, Node>::iterator i = m_lengthNodeMap.begin() ; i != m_lengthNodeMap.end() ; ++i) {
+                if ((*i).first > inLength) {
+                    m_lengthNodeMap.erase(i);
+                }
+                else {
+                    if ((*i).first > max) {
+                        max = (*i).first;
+                    }
+                }
+            }
+            
+            m_maximumLength = max;
         }
         
         inline const Node* Span::nodeOfLength(size_t inLength) const
@@ -67,17 +95,10 @@ namespace Formosa {
             return f == m_lengthNodeMap.end() ? 0 : &(*f).second;
         }
         
-        size_t Span::maximumLength() const
+        inline size_t Span::maximumLength() const
         {
-            size_t max = 0;
-            for (map<size_t, Node>::const_iterator i = m_lengthNodeMap.begin() ; i != m_lengthNodeMap.end() ; ++i) {
-                if ((*i).first > max) {
-                    max = (*i).first;
-                }
-            }
-            
-            return max;
-        }        
+            return m_maximumLength;
+        }
     };
 };
 
