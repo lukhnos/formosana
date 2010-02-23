@@ -44,6 +44,8 @@ namespace Formosa {
             void insertReadingAtCursor(const string& inReading);
             bool deleteReadingBeforeCursor();   // backspace
             bool deleteReadingAfterCursor();    // delete
+            
+            const Grid& grid() const;
                         
         protected:
             void build();
@@ -61,6 +63,7 @@ namespace Formosa {
         
         inline BlockReadingBuilder::BlockReadingBuilder(LanguageModel *inLM)
             : m_LM(inLM)
+            , m_cursorIndex(0)
         {
         }
         
@@ -111,6 +114,11 @@ namespace Formosa {
             return true;
         }
         
+        inline const Grid& BlockReadingBuilder::grid() const
+        {
+            return m_grid;
+        }
+        
         inline void BlockReadingBuilder::build()
         {
             if (!m_LM) {
@@ -132,12 +140,10 @@ namespace Formosa {
             }
             
             for (size_t p = begin ; p < end ; p++) {
-                for (size_t q = 1 ; q <= MaximumBuildSpanLength ; p+q <= end) {                    
-                    string combinedReading = Join(m_readings.begin() + p, m_readings.begin() + q);
+                for (size_t q = 1 ; q <= MaximumBuildSpanLength && p+q <= end ; q++) {
+                    string combinedReading = Join(m_readings.begin() + p, m_readings.begin() + p + q);
                     
-                    if (m_LM->hasUnigramsForKey(combinedReading)) {
-                        cerr << "placing reading: " << combinedReading << ", at (" << p << "," << q << ")" << endl;
-                        
+                    if (m_LM->hasUnigramsForKey(combinedReading) && !m_grid.hasNodeAtLocationSpanningLengthMatchingKey(p, q, combinedReading)) {
                         Node n(combinedReading, m_LM->unigramsForKeys(combinedReading), vector<Bigram>());                        
                         m_grid.insertNode(n, p, q);
                     }

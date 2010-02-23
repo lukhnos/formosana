@@ -86,10 +86,18 @@ int main()
 {
     SimpleLM lm("SampleData.txt");
     
-    string k = "ㄓㄨㄥ";
-    vector<Unigram> us = lm.unigramsForKeys(k);
-    Node n(k, us, vector<Bigram>());
-    cout << n << endl;    
+    BlockReadingBuilder builder(&lm);
+    
+    builder.insertReadingAtCursor("ㄍㄠ");
+    builder.insertReadingAtCursor("ㄐㄧˋ");
+    
+    builder.setCursor(1);
+    builder.insertReadingAtCursor("ㄎㄜ");
+    
+    builder.setCursor(0);
+    builder.deleteReadingAfterCursor();
+    
+    cout << builder.grid().dumpDOT() << endl;
     
     return 0;
 }

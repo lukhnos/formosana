@@ -115,28 +115,39 @@ namespace Formosa {
         {
             stringstream sst;
             sst << "digraph {" << endl;
+            sst << "graph [ rankdir=LR ];" << endl;
+            sst << "BOS;" << endl;
             
             for (size_t p = 0 ; p < m_spans.size() ; p++) {
                 const Span& span = m_spans[p];
-                for (size_t ni = 0 ; ni < span.maximumLength() ; ni++) {
+                for (size_t ni = 0 ; ni <= span.maximumLength() ; ni++) {
                     const Node* np = span.nodeOfLength(ni);
                     if (np) {
+                        if (!p) {
+                            sst << "BOS -> " << np->key() << ";" << endl;
+                        }
+                        
                         sst << np->key() << ";" << endl;
                         
                         if (p + ni < m_spans.size()) {
                             const Span& dstSpan = m_spans[p+ni];
-                            for (size_t q = 0 ; q < dstSpan.maximumLength() ; q++) {
+                            for (size_t q = 0 ; q <= dstSpan.maximumLength() ; q++) {
                                 const Node *dn = dstSpan.nodeOfLength(q);
                                 if (dn) {
                                     sst << np->key() << " -> " << dn->key() << ";" << endl;
                                 }
                             }
                         }
+                        
+                        if (p + ni == m_spans.size()) {
+                            sst << np->key() << " -> " << "EOS;" << endl;
+                        }
                     }
                 }
             }
             
-            sst << "}" << endl;
+            sst << "EOS;" << endl;
+            sst << "}";
             return sst.str();
         }        
     };
