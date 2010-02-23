@@ -25,6 +25,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -43,7 +44,7 @@ public:
     SimpleLM(const string& inPath, bool swapKeyValue = false)
     {
         ifstream ifs;
-        ifs.open("SampleData.txt");
+        ifs.open(inPath.c_str());
         while (ifs.good()) {
             string line;
             getline(ifs, line);
@@ -90,9 +91,12 @@ protected:
     map<string, vector<Unigram> > m_db;    
 };
 
-int main()
+int main(int argc, char *argv[])
 {
-    SimpleLM lm("SampleData.txt");
+    string filename = argc > 1 ? argv[1] : "SampleData.txt";
+    cout << "using: " << filename << endl;
+    
+    SimpleLM lm(filename);
     
     BlockReadingBuilder builder(&lm);
     builder.insertReadingAtCursor("ㄍㄠ");
@@ -113,23 +117,39 @@ int main()
     
     Walker walker(&builder.grid());
     cout << builder.grid().dumpDOT() << endl;
-    cout << walker.reverseWalk(builder.grid().width(), 0.0) << endl;
-
     
-    SimpleLM lm2("SampleData.txt", true);
-    BlockReadingBuilder builder2(&lm2);
-    builder2.insertReadingAtCursor("高");
-    builder2.insertReadingAtCursor("科");
-    builder2.insertReadingAtCursor("技");
-    builder2.insertReadingAtCursor("公");
-    builder2.insertReadingAtCursor("司");
-    builder2.insertReadingAtCursor("的");
-    builder2.insertReadingAtCursor("年");
-    builder2.insertReadingAtCursor("終");
-    builder2.insertReadingAtCursor("獎");
-    builder2.insertReadingAtCursor("金");
-    cout << builder2.grid().dumpDOT() << endl;
-    Walker walker2(&builder2.grid());
-    cout << walker2.reverseWalk(builder2.grid().width(), 0.0) << endl;
+    
+    vector<NodeAnchor> walked = walker.reverseWalk(builder.grid().width(), 0.0);
+    reverse(walked.begin(), walked.end());
+    
+    for (vector<NodeAnchor>::iterator wi = walked.begin() ; wi != walked.end() ; ++wi) {
+        if (!(*wi).node) {
+            cout << "skipping empty node" << endl;
+        }
+        else {
+            cout << (*wi).node->currentKeyValue() << endl;
+        }        
+    }
+    
+
+
+    if (0) {
+        SimpleLM lm2("SampleData.txt", true);
+        BlockReadingBuilder builder2(&lm2);
+        builder2.insertReadingAtCursor("高");
+        builder2.insertReadingAtCursor("科");
+        builder2.insertReadingAtCursor("技");
+        builder2.insertReadingAtCursor("公");
+        builder2.insertReadingAtCursor("司");
+        builder2.insertReadingAtCursor("的");
+        builder2.insertReadingAtCursor("年");
+        builder2.insertReadingAtCursor("終");
+        builder2.insertReadingAtCursor("獎");
+        builder2.insertReadingAtCursor("金");
+        cout << builder2.grid().dumpDOT() << endl;
+        Walker walker2(&builder2.grid());
+        cout << walker2.reverseWalk(builder2.grid().width(), 0.0) << endl;
+    }
+    
     return 0;
 }
