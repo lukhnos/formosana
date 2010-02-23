@@ -46,11 +46,17 @@ namespace Formosa {
             bool deleteReadingAfterCursor();    // delete
                         
         protected:
+            void build();
+            
+            static const string Join(vector<string>::const_iterator begin, vector<string>::const_iterator end);
+            
+            static const size_t MaximumBuildSpanLength = 4;
+            
             size_t m_cursorIndex;
             vector<string> m_readings;
             
             Grid m_grid;
-            const LanguageModel *m_LM;
+            LanguageModel *m_LM;
         };
         
         inline BlockReadingBuilder::BlockReadingBuilder(LanguageModel *inLM)
@@ -74,6 +80,9 @@ namespace Formosa {
         inline void BlockReadingBuilder::insertReadingAtCursor(const string& inReading)
         {
             m_readings.insert(m_readings.begin() + m_cursorIndex, inReading);
+                                    
+            m_grid.expandGridByOneAtLocation(m_cursorIndex);            
+            build();
             m_cursorIndex++;   
         }
         
@@ -85,6 +94,8 @@ namespace Formosa {
             
             m_readings.erase(m_readings.begin() + m_cursorIndex - 1, m_readings.begin() + m_cursorIndex);
             m_cursorIndex--;
+            m_grid.shrinkGridByOneAtLocation(m_cursorIndex);
+            build();
             return true;
         }
         
@@ -95,9 +106,53 @@ namespace Formosa {
             }
             
             m_readings.erase(m_readings.begin() + m_cursorIndex, m_readings.begin() + m_cursorIndex + 1);
+            m_grid.shrinkGridByOneAtLocation(m_cursorIndex);
+            build();
             return true;
         }
         
+        inline void BlockReadingBuilder::build()
+        {
+            if (!m_LM) {
+                return;
+            }
+            
+            size_t begin = 0;
+            size_t end = m_cursorIndex + MaximumBuildSpanLength;
+            
+            if (m_cursorIndex < MaximumBuildSpanLength) {
+                begin = 0;
+            }
+            else {
+                begin = m_cursorIndex - MaximumBuildSpanLength;
+            }
+            
+            if (end > m_readings.size()) {
+                end = m_readings.size();
+            }
+            
+            for (size_t p = begin ; p < end ; p++) {
+                for (size_t q = 1 ; q <= MaximumBuildSpanLength ; p+q <= end) {                    
+                    string combinedReading = Join(m_readings.begin() + p, m_readings.begin() + q);
+                    
+                    if (m_LM->hasUnigramsForKey(combinedReading)) {
+                        cerr << "placing reading: " << combinedReading << ", at (" << p << "," << q << ")" << endl;
+                        
+                        Node n(combinedReading, m_LM->unigramsForKeys(combinedReading), vector<Bigram>());                        
+                        m_grid.insertNode(n, p, q);
+                    }
+                }
+            }
+        }
+        
+        const string BlockReadingBuilder::Join(vector<string>::const_iterator begin, vector<string>::const_iterator end)
+        {
+            string result;
+            for (vector<string>::const_iterator iter = begin ; iter != end ; ++iter) {
+                result += *iter;
+            }
+            return result;
+        }                    
     };
 };
 
