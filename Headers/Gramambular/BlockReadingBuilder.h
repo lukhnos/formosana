@@ -40,12 +40,15 @@ namespace Formosa {
         public:
             BlockReadingBuilder(LanguageModel *inLM);
             void clear();
-            void setCursor(size_t inNewIndex);
+            
+            size_t length() const;
+            size_t cursorIndex() const;
+            void setCursorIndex(size_t inNewIndex);
             void insertReadingAtCursor(const string& inReading);
             bool deleteReadingBeforeCursor();   // backspace
             bool deleteReadingAfterCursor();    // delete
             
-            const Grid& grid() const;
+            Grid& grid();
                         
         protected:
             void build();
@@ -73,8 +76,18 @@ namespace Formosa {
             m_readings.clear();
             m_grid.clear();
         }
+        
+        inline size_t BlockReadingBuilder::length() const
+        {
+            return m_readings.size();
+        }
+        
+        inline size_t BlockReadingBuilder::cursorIndex() const
+        {
+            return m_cursorIndex;
+        }
 
-        inline void BlockReadingBuilder::setCursor(size_t inNewIndex)
+        inline void BlockReadingBuilder::setCursorIndex(size_t inNewIndex)
         {
             m_cursorIndex = inNewIndex > m_readings.size() ? m_readings.size() : inNewIndex;
         }
@@ -114,7 +127,7 @@ namespace Formosa {
             return true;
         }
         
-        inline const Grid& BlockReadingBuilder::grid() const
+        inline Grid& BlockReadingBuilder::grid()
         {
             return m_grid;
         }

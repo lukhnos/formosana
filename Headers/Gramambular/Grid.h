@@ -29,10 +29,12 @@
 #define Grid_h
 
 #include <map>
+#include "NodeAnchor.h"
 #include "Span.h"
 
 namespace Formosa {
     namespace Gramambular {
+        
         class Grid {
         public:
             void clear();
@@ -42,7 +44,10 @@ namespace Formosa {
             void expandGridByOneAtLocation(size_t inLocation);
             void shrinkGridByOneAtLocation(size_t inLocation);
 
-            const string dumpDOT() const;
+            size_t width() const;
+            vector<NodeAnchor> nodesEndingAt(size_t inLocation);
+            
+            const string dumpDOT();
             
         protected:
             vector<Span> m_spans;
@@ -110,8 +115,37 @@ namespace Formosa {
                 m_spans[i].removeNodeOfLengthGreaterThan(inLocation - i);
             }
         }
+
+        inline size_t Grid::width() const
+        {
+            return m_spans.size();
+        }
         
-        inline const string Grid::dumpDOT() const
+        inline vector<NodeAnchor> Grid::nodesEndingAt(size_t inLocation)
+        {
+            vector<NodeAnchor> result;
+            
+            if (m_spans.size() && inLocation <= m_spans.size()) {
+                for (size_t i = 0 ; i < inLocation ; i++) {
+                    Span& span = m_spans[i];
+                    if (i + span.maximumLength() >= inLocation) {
+                        Node *np = span.nodeOfLength(inLocation - i);
+                        if (np) {
+                            NodeAnchor na;
+                            na.node = np;
+                            na.location = i;
+                            na.spanningLength = inLocation - i;
+                            
+                            result.push_back(na);
+                        }
+                    }
+                }
+            }
+            
+            return result;
+        }
+
+        inline const string Grid::dumpDOT()
         {
             stringstream sst;
             sst << "digraph {" << endl;
@@ -119,9 +153,9 @@ namespace Formosa {
             sst << "BOS;" << endl;
             
             for (size_t p = 0 ; p < m_spans.size() ; p++) {
-                const Span& span = m_spans[p];
+                Span& span = m_spans[p];
                 for (size_t ni = 0 ; ni <= span.maximumLength() ; ni++) {
-                    const Node* np = span.nodeOfLength(ni);
+                    Node* np = span.nodeOfLength(ni);
                     if (np) {
                         if (!p) {
                             sst << "BOS -> " << np->key() << ";" << endl;
@@ -130,9 +164,9 @@ namespace Formosa {
                         sst << np->key() << ";" << endl;
                         
                         if (p + ni < m_spans.size()) {
-                            const Span& dstSpan = m_spans[p+ni];
+                            Span& dstSpan = m_spans[p+ni];
                             for (size_t q = 0 ; q <= dstSpan.maximumLength() ; q++) {
-                                const Node *dn = dstSpan.nodeOfLength(q);
+                                Node *dn = dstSpan.nodeOfLength(q);
                                 if (dn) {
                                     sst << np->key() << " -> " << dn->key() << ";" << endl;
                                 }

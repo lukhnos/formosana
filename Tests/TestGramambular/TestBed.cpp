@@ -40,7 +40,7 @@ using namespace Formosa::Gramambular;
 class SimpleLM : public LanguageModel
 {
 public:
-    SimpleLM(const string& inPath)
+    SimpleLM(const string& inPath, bool swapKeyValue = false)
     {
         ifstream ifs;
         ifs.open("SampleData.txt");
@@ -51,11 +51,19 @@ public:
             
             if (p.size() == 3) {
                 Unigram u;
-                u.keyValue.key = p[0];
-                u.keyValue.value = p[1];
+                
+                if (swapKeyValue) {
+                    u.keyValue.key = p[1];
+                    u.keyValue.value = p[0];
+                }
+                else {
+                    u.keyValue.key = p[0];
+                    u.keyValue.value = p[1];
+                }
+
                 u.score = atof(p[2].c_str());
                 
-                m_db[p[0]].push_back(u);
+                m_db[u.keyValue.key].push_back(u);
             }
         }
         ifs.close();        
@@ -87,17 +95,41 @@ int main()
     SimpleLM lm("SampleData.txt");
     
     BlockReadingBuilder builder(&lm);
-    
     builder.insertReadingAtCursor("ㄍㄠ");
     builder.insertReadingAtCursor("ㄐㄧˋ");
-    
-    builder.setCursor(1);
+    builder.setCursorIndex(1);
     builder.insertReadingAtCursor("ㄎㄜ");
-    
-    builder.setCursor(0);
+    builder.setCursorIndex(0);
     builder.deleteReadingAfterCursor();
+    builder.insertReadingAtCursor("ㄍㄠ");
+    builder.setCursorIndex(builder.length());
+    builder.insertReadingAtCursor("ㄍㄨㄥ");
+    builder.insertReadingAtCursor("ㄙ");
+    builder.insertReadingAtCursor("ㄉㄜ˙");
+    builder.insertReadingAtCursor("ㄋㄧㄢˊ");
+    builder.insertReadingAtCursor("ㄓㄨㄥ");
+    builder.insertReadingAtCursor("ㄐㄧㄤˇ");
+    builder.insertReadingAtCursor("ㄐㄧㄣ");
     
+    Walker walker(&builder.grid());
     cout << builder.grid().dumpDOT() << endl;
+    cout << walker.reverseWalk(builder.grid().width(), 0.0) << endl;
+
     
+    SimpleLM lm2("SampleData.txt", true);
+    BlockReadingBuilder builder2(&lm2);
+    builder2.insertReadingAtCursor("高");
+    builder2.insertReadingAtCursor("科");
+    builder2.insertReadingAtCursor("技");
+    builder2.insertReadingAtCursor("公");
+    builder2.insertReadingAtCursor("司");
+    builder2.insertReadingAtCursor("的");
+    builder2.insertReadingAtCursor("年");
+    builder2.insertReadingAtCursor("終");
+    builder2.insertReadingAtCursor("獎");
+    builder2.insertReadingAtCursor("金");
+    cout << builder2.grid().dumpDOT() << endl;
+    Walker walker2(&builder2.grid());
+    cout << walker2.reverseWalk(builder2.grid().width(), 0.0) << endl;
     return 0;
 }

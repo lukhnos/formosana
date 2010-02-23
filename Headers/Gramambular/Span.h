@@ -42,7 +42,7 @@ namespace Formosa {
             void insertNodeOfLength(const Node& inNode, size_t inLength);
             void removeNodeOfLengthGreaterThan(size_t inLength);
             
-            const Node* nodeOfLength(size_t inLength) const;
+            Node* nodeOfLength(size_t inLength);
             size_t maximumLength() const;
 
         protected:
@@ -90,9 +90,9 @@ namespace Formosa {
             m_maximumLength = max;
         }
         
-        inline const Node* Span::nodeOfLength(size_t inLength) const
+        inline Node* Span::nodeOfLength(size_t inLength)
         {
-            map<size_t, Node>::const_iterator f = m_lengthNodeMap.find(inLength);
+            map<size_t, Node>::iterator f = m_lengthNodeMap.find(inLength);
             return f == m_lengthNodeMap.end() ? 0 : &(*f).second;
         }
         

@@ -48,12 +48,15 @@ namespace Formosa {
             void selectCandidateAtIndex(size_t inIndex = 0, bool inFix = true);
             
             const string& key() const;
+            double score() const;
             const KeyValuePair currentKeyValue() const;
             
         protected:
             const LanguageModel* m_LM;
             
             string m_key;
+            double m_score;
+            
             vector<Unigram> m_unigrams;
             vector<KeyValuePair> m_candidates;
             map<string, size_t> m_valueUnigramIndexMap;
@@ -76,6 +79,7 @@ namespace Formosa {
         inline Node::Node()
             : m_candidateFixed(false)
             , m_selectedUnigramIndex(0)
+            , m_score(0.0)
         {
         }
 
@@ -84,8 +88,13 @@ namespace Formosa {
             , m_unigrams(inUnigrams)
             , m_candidateFixed(false)
             , m_selectedUnigramIndex(0)
+            , m_score(0.0)
         {
             sort(m_unigrams.begin(), m_unigrams.end(), Unigram::ScoreCompare);
+            
+            if (m_unigrams.size()) {
+                m_score = m_unigrams[0].score;
+            }
             
             size_t i = 0;
             for (vector<Unigram>::const_iterator ui = m_unigrams.begin() ; ui != m_unigrams.end() ; ++ui) {
@@ -103,7 +112,7 @@ namespace Formosa {
         inline void Node::primeNodeWithPreceedingKeyValues(const vector<KeyValuePair>& inKeyValues)
         {
             size_t newIndex = m_selectedUnigramIndex;
-            double max = std::numeric_limits<double>::min();
+            double max = m_score;
 
             if (!isCandidateFixed()) {
                 for (vector<KeyValuePair>::const_iterator kvi = inKeyValues.begin() ; kvi != inKeyValues.end() ; ++kvi) {
@@ -123,6 +132,10 @@ namespace Formosa {
                         }
                     }
                 }
+            }
+
+            if (m_score != max) {
+                m_score = max;
             }
             
             if (newIndex != m_selectedUnigramIndex) {
@@ -150,11 +163,17 @@ namespace Formosa {
             }            
             
             m_candidateFixed = inFix;
+            m_score = m_unigrams[inIndex].score;
         }        
         
         inline const string& Node::key() const
         {
             return m_key;
+        }
+        
+        inline double Node::score() const
+        {
+            return m_score;
         }
         
         inline const KeyValuePair Node::currentKeyValue() const

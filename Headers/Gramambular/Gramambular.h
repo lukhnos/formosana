@@ -34,6 +34,7 @@
 #include "KeyValuePair.h"
 #include "LanguageModel.h"
 #include "Node.h"
+#include "NodeAnchor.h"
 #include "Span.h"
 #include "Unigram.h"
 #include "Walker.h"
