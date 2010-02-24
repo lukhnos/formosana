@@ -48,6 +48,11 @@ public:
         while (ifs.good()) {
             string line;
             getline(ifs, line);
+            
+            if (!line.size() || (line.size() && line[0] == '#')) {
+                continue;
+            }
+            
             vector<string> p = OVStringHelper::Split(line, ' ');
             
             if (p.size() == 3) {
@@ -96,45 +101,45 @@ int main(int argc, char *argv[])
     string filename = argc > 1 ? argv[1] : "SampleData.txt";
     cout << "using: " << filename << endl;
     
-    SimpleLM lm(filename);
-    
-    BlockReadingBuilder builder(&lm);
-    builder.insertReadingAtCursor("ㄍㄠ");
-    builder.insertReadingAtCursor("ㄐㄧˋ");
-    builder.setCursorIndex(1);
-    builder.insertReadingAtCursor("ㄎㄜ");
-    builder.setCursorIndex(0);
-    builder.deleteReadingAfterCursor();
-    builder.insertReadingAtCursor("ㄍㄠ");
-    builder.setCursorIndex(builder.length());
-    builder.insertReadingAtCursor("ㄍㄨㄥ");
-    builder.insertReadingAtCursor("ㄙ");
-    builder.insertReadingAtCursor("ㄉㄜ˙");
-    builder.insertReadingAtCursor("ㄋㄧㄢˊ");
-    builder.insertReadingAtCursor("ㄓㄨㄥ");
-    builder.insertReadingAtCursor("ㄐㄧㄤˇ");
-    builder.insertReadingAtCursor("ㄐㄧㄣ");
-    
-    Walker walker(&builder.grid());
-    cout << builder.grid().dumpDOT() << endl;
-    
-    
-    vector<NodeAnchor> walked = walker.reverseWalk(builder.grid().width(), 0.0);
-    reverse(walked.begin(), walked.end());
-    
-    for (vector<NodeAnchor>::iterator wi = walked.begin() ; wi != walked.end() ; ++wi) {
-        if (!(*wi).node) {
-            cout << "skipping empty node" << endl;
+    if (1) {
+        SimpleLM lm(filename);
+        
+        BlockReadingBuilder builder(&lm);
+        builder.insertReadingAtCursor("ㄍㄠ");
+        builder.insertReadingAtCursor("ㄐㄧˋ");
+        builder.setCursorIndex(1);
+        builder.insertReadingAtCursor("ㄎㄜ");
+        builder.setCursorIndex(0);
+        builder.deleteReadingAfterCursor();
+        builder.insertReadingAtCursor("ㄍㄠ");
+        builder.setCursorIndex(builder.length());
+        builder.insertReadingAtCursor("ㄍㄨㄥ");
+        builder.insertReadingAtCursor("ㄙ");
+        builder.insertReadingAtCursor("ㄉㄜ˙");
+        builder.insertReadingAtCursor("ㄋㄧㄢˊ");
+        builder.insertReadingAtCursor("ㄓㄨㄥ");
+        builder.insertReadingAtCursor("ㄐㄧㄤˇ");
+        builder.insertReadingAtCursor("ㄐㄧㄣ");
+        
+        Walker walker(&builder.grid());
+        cout << builder.grid().dumpDOT() << endl;
+        
+        
+        vector<NodeAnchor> walked = walker.reverseWalk(builder.grid().width(), 0.0);
+        reverse(walked.begin(), walked.end());
+        
+        for (vector<NodeAnchor>::iterator wi = walked.begin() ; wi != walked.end() ; ++wi) {
+            if (!(*wi).node) {
+                cout << "skipping empty node" << endl;
+            }
+            else {
+                cout << (*wi).node->currentKeyValue() << endl;
+            }        
         }
-        else {
-            cout << (*wi).node->currentKeyValue() << endl;
-        }        
     }
-    
-
 
     if (0) {
-        SimpleLM lm2("SampleData.txt", true);
+        SimpleLM lm2(filename, true);
         BlockReadingBuilder builder2(&lm2);
         builder2.insertReadingAtCursor("高");
         builder2.insertReadingAtCursor("科");
@@ -148,7 +153,18 @@ int main(int argc, char *argv[])
         builder2.insertReadingAtCursor("金");
         cout << builder2.grid().dumpDOT() << endl;
         Walker walker2(&builder2.grid());
-        cout << walker2.reverseWalk(builder2.grid().width(), 0.0) << endl;
+
+        vector<NodeAnchor> walked = walker2.reverseWalk(builder2.grid().width(), 0.0);
+        reverse(walked.begin(), walked.end());
+        
+        for (vector<NodeAnchor>::iterator wi = walked.begin() ; wi != walked.end() ; ++wi) {
+            if (!(*wi).node) {
+                cout << "skipping empty node" << endl;
+            }
+            else {
+                cout << (*wi).node->currentKeyValue() << endl;
+            }        
+        }        
     }
     
     return 0;
