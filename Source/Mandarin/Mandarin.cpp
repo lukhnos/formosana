@@ -759,14 +759,6 @@ const BopomofoKeyboardLayout* BopomofoKeyboardLayout::LayoutForName(const string
     if (OVWildcard::Match(name, "hanyupinyin") || OVWildcard::Match(name, "hanyu pinyin") || OVWildcard::Match(name, "hanyu-pinyin") || OVWildcard::Match(name, "pinyin"))
         return HanyuPinyinLayout();
 
-    // <lithoglyph>
-    if (OVWildcard::Match(name, "bpmfdtnlgkhjvcjvcrzasexuyhgeiawomnklldfjs"))
-        return HsuLayout();
-
-    if (OVWildcard::Match(name, "bpmfdtnlvkhgvcgycjqwsexuaorwiqzpmntlhfjkd"))
-        return ETen26Layout();
-    // </lithoglyph>
-    
     return 0;
 }
 
