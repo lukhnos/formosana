@@ -77,8 +77,7 @@ namespace Formosa {
             }
             
             vector<NodeAnchor>* result = &*(paths.begin());
-            for (vector<vector<NodeAnchor> >::iterator pi = paths.begin() ; pi != paths.end() ; ++pi) {
-                
+            for (vector<vector<NodeAnchor> >::iterator pi = paths.begin() ; pi != paths.end() ; ++pi) {                
                 if ((*pi).back().accumulatedScore > result->back().accumulatedScore) {
                     result = &*pi;
                 }
