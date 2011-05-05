@@ -92,8 +92,6 @@ namespace Formosa {
             }
             else {
                 m_spans.insert(m_spans.begin() + inLocation, Span());
-                
-                size_t s = m_spans.size();
                 for (size_t i = 0 ; i < inLocation ; i++) {
                     // zaps overlapping spans
                     m_spans[i].removeNodeOfLengthGreaterThan(inLocation - i);
@@ -108,8 +106,6 @@ namespace Formosa {
             }
             
             m_spans.erase(m_spans.begin() + inLocation);
-
-            size_t s = m_spans.size();
             for (size_t i = 0 ; i < inLocation ; i++) {
                 // zaps overlapping spans
                 m_spans[i].removeNodeOfLengthGreaterThan(inLocation - i);
