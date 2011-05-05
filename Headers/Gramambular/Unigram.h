@@ -94,7 +94,7 @@ namespace Formosa {
             return false;
         }
 
-        bool Unigram::ScoreCompare(const Unigram& a, const Unigram& b)
+        inline bool Unigram::ScoreCompare(const Unigram& a, const Unigram& b)
         {
             return a.score > b.score;
         }

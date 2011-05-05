@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
     string filename = argc > 1 ? argv[1] : "SampleData.txt";
     cout << "using: " << filename << endl;
     
-    if (1) {
+    if (0) {
         SimpleLM lm(filename);
         
         BlockReadingBuilder builder(&lm);
@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (0) {
+    if (1) {
         SimpleLM lm2(filename, true);
         BlockReadingBuilder builder2(&lm2);
         builder2.insertReadingAtCursor("高");
