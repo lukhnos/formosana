@@ -305,7 +305,7 @@ namespace Formosa {
                 
                 BPMF::Component c;
                 char k;
-                #define STKS_COMBINE(component) if (c = component) { if (k = componentToKey(c)) sequence += string(1, k); }
+                #define STKS_COMBINE(component) if ((c = component)) { if ((k = componentToKey(c))) sequence += string(1, k); }
                 STKS_COMBINE(syllable.consonantComponent());
                 STKS_COMBINE(syllable.middleVowelComponent());
                 STKS_COMBINE(syllable.vowelComponent());
