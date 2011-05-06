@@ -163,7 +163,7 @@ namespace Formosa {
             }            
             
             m_candidateFixed = inFix;
-            m_score = m_unigrams[inIndex].score;
+            m_score = 0;
         }        
         
         inline const string& Node::key() const
