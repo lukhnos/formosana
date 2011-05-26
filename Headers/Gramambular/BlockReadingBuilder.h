@@ -48,12 +48,15 @@ namespace Formosa {
             bool deleteReadingBeforeCursor();   // backspace
             bool deleteReadingAfterCursor();    // delete
             
+            void setJoinSeparator(const string& separator);
+            const string joinSeparator() const;
+            
             Grid& grid();
                         
         protected:
             void build();
             
-            static const string Join(vector<string>::const_iterator begin, vector<string>::const_iterator end);
+            static const string Join(vector<string>::const_iterator begin, vector<string>::const_iterator end, const string& separator);
             
             static const size_t MaximumBuildSpanLength = 4;
             
@@ -62,6 +65,7 @@ namespace Formosa {
             
             Grid m_grid;
             LanguageModel *m_LM;
+            string m_joinSeparator;
         };
         
         inline BlockReadingBuilder::BlockReadingBuilder(LanguageModel *inLM)
@@ -127,6 +131,16 @@ namespace Formosa {
             return true;
         }
         
+        inline void BlockReadingBuilder::setJoinSeparator(const string& separator)
+        {
+            m_joinSeparator = separator;
+        }
+        
+        inline const string BlockReadingBuilder::joinSeparator() const
+        {
+            return m_joinSeparator;
+        }
+
         inline Grid& BlockReadingBuilder::grid()
         {
             return m_grid;
@@ -154,7 +168,7 @@ namespace Formosa {
             
             for (size_t p = begin ; p < end ; p++) {
                 for (size_t q = 1 ; q <= MaximumBuildSpanLength && p+q <= end ; q++) {
-                    string combinedReading = Join(m_readings.begin() + p, m_readings.begin() + p + q);
+                    string combinedReading = Join(m_readings.begin() + p, m_readings.begin() + p + q, m_joinSeparator);
                     
                     if (m_LM->hasUnigramsForKey(combinedReading) && !m_grid.hasNodeAtLocationSpanningLengthMatchingKey(p, q, combinedReading)) {
                         Node n(combinedReading, m_LM->unigramsForKeys(combinedReading), vector<Bigram>());                        
@@ -164,11 +178,15 @@ namespace Formosa {
             }
         }
         
-        const string BlockReadingBuilder::Join(vector<string>::const_iterator begin, vector<string>::const_iterator end)
+        const string BlockReadingBuilder::Join(vector<string>::const_iterator begin, vector<string>::const_iterator end, const string& separator)
         {
             string result;
-            for (vector<string>::const_iterator iter = begin ; iter != end ; ++iter) {
+            for (vector<string>::const_iterator iter = begin ; iter != end ; ) {
                 result += *iter;
+                ++iter;
+                if (iter != end) {
+                    result += separator;
+                }
             }
             return result;
         }                    

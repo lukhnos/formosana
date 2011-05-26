@@ -163,7 +163,7 @@ namespace Formosa {
             }            
             
             m_candidateFixed = inFix;
-            m_score = 0;
+            m_score = 99;
         }        
         
         inline const string& Node::key() const
