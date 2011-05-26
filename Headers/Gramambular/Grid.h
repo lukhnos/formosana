@@ -46,6 +46,7 @@ namespace Formosa {
 
             size_t width() const;
             vector<NodeAnchor> nodesEndingAt(size_t inLocation);
+            vector<NodeAnchor> nodesCrossingOrEndingAt(size_t inLocation);
             
             const string dumpDOT();
             
@@ -141,6 +142,40 @@ namespace Formosa {
             return result;
         }
 
+        inline vector<NodeAnchor> Grid::nodesCrossingOrEndingAt(size_t inLocation)
+        {
+            vector<NodeAnchor> result;
+            
+            if (m_spans.size() && inLocation <= m_spans.size()) {
+                for (size_t i = 0 ; i < inLocation ; i++) {
+                    Span& span = m_spans[i];
+                    
+                    if (i + span.maximumLength() >= inLocation) {
+
+                        for (size_t j = 1, m = span.maximumLength(); j <= m ; j++) { 
+                            
+                            if (i + j < inLocation) {
+                                continue;
+                            }
+                            
+                            Node *np = span.nodeOfLength(j);
+                            if (np) {
+                                NodeAnchor na;
+                                na.node = np;
+                                na.location = i;
+                                na.spanningLength = inLocation - i;
+                                
+                                result.push_back(na);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return result;
+        }
+
+        
         inline const string Grid::dumpDOT()
         {
             stringstream sst;
