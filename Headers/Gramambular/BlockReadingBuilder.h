@@ -48,6 +48,8 @@ namespace Formosa {
             bool deleteReadingBeforeCursor();   // backspace
             bool deleteReadingAfterCursor();    // delete
             
+            bool removeHeadReadings(size_t count);
+            
             void setJoinSeparator(const string& separator);
             const string joinSeparator() const;
             
@@ -129,6 +131,24 @@ namespace Formosa {
             m_grid.shrinkGridByOneAtLocation(m_cursorIndex);
             build();
             return true;
+        }
+        
+        inline bool BlockReadingBuilder::removeHeadReadings(size_t count)
+        {
+            if (count > length()) {
+                return false;
+            }
+            
+            for (size_t i = 0; i < count; i++) {
+                if (m_cursorIndex) {
+                    m_cursorIndex--;
+                }
+                m_readings.erase(m_readings.begin(), m_readings.begin() + 1);
+                m_grid.shrinkGridByOneAtLocation(0);
+                build();
+            }
+            
+            return true;            
         }
         
         inline void BlockReadingBuilder::setJoinSeparator(const string& separator)
