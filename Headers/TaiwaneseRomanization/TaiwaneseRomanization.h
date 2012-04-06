@@ -71,7 +71,8 @@ namespace Formosa {
             POJSyllable = 0,
             TLSyllable = 1,
             TLPASyllable = 2,
-            DTSyllable = 3
+            DTSyllable = 3,            
+            HakkaPFS = 4
         };
     
         enum DiacriticInputOption {
