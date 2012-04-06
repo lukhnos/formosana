@@ -502,11 +502,29 @@ const string RomanizationSyllable::normalizedQueryData(unsigned int finalTone)
     return query;
 }
 
+static unsigned int FindVowel(vector<RomanizationSymbol>& symvec, unsigned int start)
+{
+    unsigned i = start >= symvec.size() ? symvec.size() : start;
+    while (i < symvec.size()) {
+        string s = symvec[i].symbolInLowerCase();
+        
+        if (s == "a" || s == "e" || s == "i" || s == "o" || s == "u" || s == "ou" || s == "oo" || s == "ii") {
+            return i;
+        }
+        
+        i++;
+    }
+    
+    return i;
+}
+
 // normalization is an "identpotent" function, ie. the result should
 // be the same no matter how many times you call it--this being a very
 // important linguistic characteristic of this function	
 void RomanizationSyllable::normalize(unsigned int finalTone)
 {
+    bool pureTL = (_inputType == TLSyllable && !_forcePOJStyle);
+    
     // fprintf (stderr, "input finalTone=%d\n", finalTone);
     unsigned int end = _symvec.size();
     
@@ -521,24 +539,49 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
 #define FLV(x) ((p=findSymbol(x)) != end)
 #define SETLOUDEST(v) do { loudestVowel = v; if (_symvec[loudestVowel].tone()>0) { loudestTone = _symvec[loudestVowel].tone(); } } while(0)
     
-	
-    if (end==1 && _symvec[0].symbolInLowerCase()=="m") SETLOUDEST(0);
-    if (FLV("n")) SETLOUDEST(p);
-    if (FLV("m")) SETLOUDEST(p);
     
-    // see if it's ng
-    if ((p=findSymbolPair("n", "g")) != end)
-        SETLOUDEST(p);
-    
-
-    if (FLV("u")) SETLOUDEST(p);
-    if (FLV("ii")) SETLOUDEST(p); // TODO: Check the rule here
-    if (FLV("i")) SETLOUDEST(p);
-    if (FLV("o")) SETLOUDEST(p);
-    if (FLV("e")) SETLOUDEST(p);
-    if (FLV("ou")) SETLOUDEST(p);
-    if (FLV("oo")) SETLOUDEST(p);
-    if (FLV("a")) SETLOUDEST(p);
+    if (!pureTL) {
+        // do ng first
+        // see if it's ng
+        if ((p=findSymbolPair("n", "g")) != end) {
+            SETLOUDEST(p);
+        }
+        else {
+            // do m and n
+            if (FLV("m")) SETLOUDEST(p);        
+            if (FLV("n")) SETLOUDEST(p);
+        }
+        
+        unsigned first = FindVowel(_symvec, 0);
+        if (first != end) {
+            SETLOUDEST(first);
+            
+            unsigned second = FindVowel(_symvec, first + 1);
+            if (second != end && _symvec[first].symbolInLowerCase() != "a") {
+                if (!(_symvec[first].symbolInLowerCase() == "e" && _symvec[second].symbolInLowerCase() == "e")) {
+                    SETLOUDEST(second);
+                }
+            }
+        }
+    }
+    else {
+        if (end==1 && _symvec[0].symbolInLowerCase()=="m") SETLOUDEST(0);
+        if (FLV("n")) SETLOUDEST(p);
+        if (FLV("m")) SETLOUDEST(p);
+        
+        // see if it's ng
+        if ((p=findSymbolPair("n", "g")) != end)
+            SETLOUDEST(p);
+        
+        if (FLV("u")) SETLOUDEST(p);
+        if (FLV("ii")) SETLOUDEST(p); // TODO: Check the rule here
+        if (FLV("i")) SETLOUDEST(p);
+        if (FLV("o")) SETLOUDEST(p);
+        if (FLV("e")) SETLOUDEST(p);
+        if (FLV("ou")) SETLOUDEST(p);
+        if (FLV("oo")) SETLOUDEST(p);
+        if (FLV("a")) SETLOUDEST(p);
+    }
     
     // the last "ere" override
     if (end >= 3) {
@@ -558,10 +601,8 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
     
     string lastSymbolStr = _symvec[end-1].symbolInLowerCase();
     
-    // if the symbol is "i", and there's a next "u", we shift
-    // the vowel to "u"
-    
-    if (_symvec[loudestVowel].symbolInLowerCase()=="i")
+    // if the symbol is "i", and there's a next "u", we shift the vowel to "u" (TL only)    
+    if (_symvec[loudestVowel].symbolInLowerCase()=="i" && pureTL)
     {
         if ((loudestVowel+1 < end) && (_symvec[loudestVowel+1].symbolInLowerCase() == "u" || _symvec[loudestVowel+1].symbolInLowerCase() == "ii")) {
             // if i follows a vowel, and the next vowel is u or ṳ, we put the accent on the succeeding vowel
