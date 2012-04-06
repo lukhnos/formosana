@@ -208,7 +208,7 @@ bool RomanizationSymbol::isUpperCase() const
 
 RomanizationSyllable::RomanizationSyllable() : _inputType(POJSyllable), _inputOption(DiacriticGivenBeforeVowel), 
 _forcePOJStyle(false),
-_cursor(0), _preparedTone(0), _composeII(true)                        
+_cursor(0), _preparedTone(0)
 {
 }
 
@@ -216,7 +216,7 @@ RomanizationSyllable::RomanizationSyllable(const RomanizationSyllable &s) : _inp
 _inputOption(s._inputOption),
 _forcePOJStyle(s._forcePOJStyle),
 _symvec(s._symvec),
-_cursor(s._cursor), _preparedTone(s._preparedTone), _composeII(s._composeII)
+_cursor(s._cursor), _preparedTone(s._preparedTone)
 {
 }
 
@@ -228,7 +228,6 @@ const RomanizationSyllable& RomanizationSyllable::operator=(const RomanizationSy
     _symvec = s._symvec;
     _cursor = s._cursor;
     _preparedTone = s._preparedTone;
-    _composeII = s._composeII;
     return *this;
 }		
 
@@ -416,7 +415,7 @@ bool RomanizationSyllable::insertCharacterAtCursor(char c, unsigned int tone)
                 previousSymbolAtCursor().setSymbol(previousSymbolAtCursor().symbol() + string(1, c));
                 return true;
             }
-            else if (_composeII && tolower(c)=='i' && prev=="i") {
+            else if ((_inputType == HakkaPFSSyllable) && tolower(c)=='i' && prev=="i") {
                 previousSymbolAtCursor().setSymbol(previousSymbolAtCursor().symbol() + string(1, c));
                 return true;
             }                    

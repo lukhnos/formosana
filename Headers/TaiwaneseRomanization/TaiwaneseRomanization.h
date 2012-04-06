@@ -172,8 +172,6 @@ namespace Formosa {
     		DiacriticInputOption _inputOption;
     		bool _forcePOJStyle;
 		        
-            bool _composeII;
-        
     		vector<RomanizationSymbol> _symvec;
     		unsigned int _cursor;
     		unsigned int _preparedTone;
