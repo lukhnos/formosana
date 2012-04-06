@@ -136,11 +136,24 @@ const string RomanizationSymbol::setSymbol(const string& s)
 
 const string RomanizationSymbol::composedForm(bool forcePOJStyle) const
 {
-    bool usePOJStyleOUAndNN = (_type == POJSyllable) || forcePOJStyle;
+    bool usePOJStyleOUAndNN = (_type == POJSyllable) || (_type == HakkaPFSSyllable) || forcePOJStyle;
     bool usePOJStyleNinthToneMark = (_type == POJSyllable);
-    bool composeII = true;
+    bool composeII = (_type == HakkaPFSSyllable);
     
-    string composed = VowelHelper::symbolForVowel(_symbol, _tone, usePOJStyleOUAndNN, usePOJStyleNinthToneMark, composeII);
+    
+    unsigned int nanTone = _tone;
+    if (_type == HakkaPFSSyllable) {
+        switch (_tone) {
+            case 1: nanTone = 5; break;
+            case 2: nanTone = 3; break;
+            case 3: nanTone = 2; break;
+            case 4: nanTone = 4; break;
+            case 5: nanTone = 8; break;
+            case 6: nanTone = 1; break;                
+        }
+    }
+    
+    string composed = VowelHelper::symbolForVowel(_symbol, nanTone, usePOJStyleOUAndNN, usePOJStyleNinthToneMark, composeII);
     if (!composed.length()) return _symbol;
     return composed;
 }
@@ -432,7 +445,7 @@ bool RomanizationSyllable::insertCharacterAtCursor(char c, unsigned int tone)
         s.setTone(_preparedTone);
         _preparedTone = 0;
     }
-    else if (tone > 1)
+    else if (tone > 1 || _inputType == HakkaPFSSyllable)
     {
         s.setTone(tone);
     }
@@ -507,7 +520,7 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
     
     // find the loudest vowel
 #define FLV(x) ((p=findSymbol(x)) != end)
-#define SETLOUDEST(v) do { loudestVowel = v; if (_symvec[loudestVowel].tone()>1) { loudestTone = _symvec[loudestVowel].tone(); } } while(0)
+#define SETLOUDEST(v) do { loudestVowel = v; if (_symvec[loudestVowel].tone()>0) { loudestTone = _symvec[loudestVowel].tone(); } } while(0)
     
 	
     if (end==1 && _symvec[0].symbolInLowerCase()=="m") SETLOUDEST(0);
@@ -540,7 +553,7 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
     // fprintf(stderr, "found loudest vowel=%d (%s), loudest tone=%d\n", loudestVowel, _symvec[loudestVowel].symbol().c_str(), loudestTone);
     
     // finalTone overrides
-    if (finalTone > 1) loudestTone = finalTone;
+    if (finalTone > 0) loudestTone = finalTone;
     
     for (unsigned int i=0; i<end; i++) _symvec[i].setTone(0);
     
@@ -561,19 +574,23 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
         }
     }
     
-    if (loudestTone==4 || /* loudestTone==6 || */ loudestTone <= 1) {
+    if (loudestTone==4 || /* loudestTone==6 || */ (_inputType != HakkaPFSSyllable && loudestTone <= 1)) {
         // ignore the 4th, 6th and 1th (or no tone), so everything is set to 0 now
         return;
     }
-    
+
+    unsigned int tpkhTone = (_inputType == HakkaPFSSyllable) ? 5 : 8;
+
     if (lastSymbolStr=="t" || lastSymbolStr=="p" || lastSymbolStr=="k" || lastSymbolStr=="h") {
         // only when the ending is t, p, k, h is the tone set -- and only when the tone is 8
-        if (loudestTone==8) _symvec[loudestVowel].setTone(loudestTone);
+        
+        
+        if (loudestTone==tpkhTone) _symvec[loudestVowel].setTone(loudestTone);
         return;
     }
     else {
         // if not t,p,k,h, we need to override the loudest tone--back to tone 1 !
-        if (loudestTone==8) {
+        if (loudestTone==tpkhTone) {
             _symvec[loudestVowel].setTone(0);
             return;
         }
