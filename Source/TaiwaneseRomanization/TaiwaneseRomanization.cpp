@@ -61,7 +61,7 @@ bool ComposableStringBuffer::empty()
 
 unsigned int ComposableStringBuffer::numberOfCodepoints()
 {
-    return strvec.size();
+    return (unsigned int)strvec.size();
 }
 
 bool ComposableStringBuffer::insertCharacterAt(unsigned int i, char c)
@@ -124,7 +124,7 @@ const string RomanizationSymbol::symbol() const
 const string RomanizationSymbol::symbolInLowerCase() const
 {
     string lower;
-    unsigned int s=_symbol.length();
+    unsigned int s = (unsigned int)_symbol.length();
     for (unsigned int i=0; i<s; i++) lower+=tolower(_symbol[i]);
     return lower;
 }
@@ -161,7 +161,7 @@ const string RomanizationSymbol::composedForm(bool forcePOJStyle) const
 unsigned int RomanizationSymbol::composedLength() const
 {
     string composed = composedForm();
-    unsigned int len = 0, clen = composed.length();
+    unsigned int len = 0, clen = (unsigned int)composed.length();
     for (unsigned int i=0; i<clen; )
     {
         if (!(composed[i] & 0x80)) {
@@ -261,12 +261,12 @@ bool RomanizationSyllable::empty() const
 
 unsigned int RomanizationSyllable::numberOfCodepoints() const
 {
-    return _symvec.size();
+    return (unsigned int)_symvec.size();
 }
 
 const string RomanizationSyllable::composedForm()
 {
-    unsigned int s = _symvec.size();
+    unsigned int s = (unsigned int)_symvec.size();
     string composed;
     unsigned int i;
     
@@ -489,7 +489,7 @@ const string RomanizationSyllable::normalizedQueryData(unsigned int finalTone)
     s.normalize(finalTone);
     string query;
     
-    unsigned int size=s._symvec.size();
+    unsigned int size = (unsigned int)s._symvec.size();
     unsigned int loudest = 0;
     
     for (unsigned int i=0; i<size; i++) {
@@ -504,7 +504,7 @@ const string RomanizationSyllable::normalizedQueryData(unsigned int finalTone)
 
 static unsigned int FindVowel(vector<RomanizationSymbol>& symvec, unsigned int start)
 {
-    unsigned i = start >= symvec.size() ? symvec.size() : start;
+    unsigned i = start >= (unsigned int)symvec.size() ? (unsigned int)symvec.size() : start;
     while (i < symvec.size()) {
         string s = symvec[i].symbolInLowerCase();
         
@@ -526,7 +526,7 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
     bool pureTL = (_inputType == TLSyllable && !_forcePOJStyle);
     
     // fprintf (stderr, "input finalTone=%d\n", finalTone);
-    unsigned int end = _symvec.size();
+    unsigned int end = (unsigned int)_symvec.size();
     
     // if it's empty, just return
     if (!end) return;
@@ -658,7 +658,7 @@ RomanizationSyllable RomanizationSyllable::convertToPOJSyllable()
     syl.clear();
     
     // begin TL->POJ conversion
-    unsigned int size=_symvec.size();
+    unsigned int size = (unsigned int)_symvec.size();
     unsigned int i;
     
     for (i=0; i<size; i++)
@@ -780,7 +780,7 @@ RomanizationSyllable RomanizationSyllable::convertToTLSyllable()
     syl.clear();
     
     // begin POJ->TL conversion
-    unsigned int size=_symvec.size();
+    unsigned int size = (unsigned int)_symvec.size();
     unsigned int i;
     
     for (i=0; i<size; i++)
@@ -916,7 +916,7 @@ RomanizationSymbol& RomanizationSyllable::previousSymbolAtCursor()
 unsigned int RomanizationSyllable::findSymbol(const char *s) const
 {
     string cpps(s);
-    unsigned int size = _symvec.size();
+    unsigned int size = (unsigned int)_symvec.size();
     unsigned int i;
     for (i = 0; i < size; i++) {
         if (_symvec[i].symbolInLowerCase() == cpps) break;
@@ -928,7 +928,7 @@ unsigned int RomanizationSyllable::findSymbolPair(const char *s1, const char *s2
 {
     string cpps1(s1), cpps2(s2);
     
-    unsigned int size = _symvec.size();
+    unsigned int size = (unsigned int)_symvec.size();
     if (size < 2) return size;
     
     unsigned int i;			
@@ -946,7 +946,7 @@ const RomanizationSyllable FreeFormSyllable::convertToTLFromTLPA(unsigned int fi
     RomanizationSyllable syl;
     syl.setInputType(TLSyllable);
     
-    unsigned int size=rep.length();
+    unsigned int size = (unsigned int)rep.length();
     for (unsigned int i=0; i<size; i++)
     {
         if (rep[i]=='c') {
@@ -972,7 +972,7 @@ const RomanizationSyllable FreeFormSyllable::convertToTLFromDT(unsigned int fina
     RomanizationSyllable syl;
     syl.setInputType(TLSyllable);
     
-    unsigned int size=rep.length();
+    unsigned int size = (unsigned int)rep.length();
     for (unsigned int i=0; i<size; i++)	
     {
         char dt1 = rep[i];
@@ -1156,7 +1156,7 @@ char FreeFormSyllable::charWithCaseAccordingTo(char c, const string &r) const
 
 const string FreeFormSyllable::toLowerString(const string &s) const
 {
-    unsigned int size=s.length();
+    unsigned int size = (unsigned int)s.length();
     string lower;
     unsigned int i;
     for (i=0;i<size;i++) lower+=string(1, tolower(s[i]));
