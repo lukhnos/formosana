@@ -563,6 +563,19 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
                 }
             }
         }
+        
+        // exceptions: oa/oai, oe/oei
+        first = findSymbolPair("o", "e");
+        if (first != end) {
+            SETLOUDEST(first);
+        }
+
+        first = findSymbolPair("o", "a");
+        if (first != end) {
+            if (findSymbolTriple("o", "a", "i") == end) {
+                SETLOUDEST(first);
+            }
+        }
     }
     else {
         if (end==1 && _symvec[0].symbolInLowerCase()=="m") SETLOUDEST(0);
@@ -939,6 +952,20 @@ unsigned int RomanizationSyllable::findSymbolPair(const char *s1, const char *s2
     return size;
 }
 
+unsigned int RomanizationSyllable::findSymbolTriple(const char *s1, const char *s2, const char *s3) const
+{
+    string cpps1(s1), cpps2(s2), cpps3(s3);
+    
+    unsigned int size = (unsigned int)_symvec.size();
+    if (size < 3) return size;
+    
+    unsigned int i;			
+    for (i = 0; i < size-2; i++) {
+        if (_symvec[i].symbolInLowerCase()==cpps1 && _symvec[i+1].symbolInLowerCase()==cpps2 && _symvec[i+2].symbolInLowerCase()==cpps3) return i;
+    }
+    
+    return size;
+}
 
 const RomanizationSyllable FreeFormSyllable::convertToTLFromTLPA(unsigned int finalTone)
 {

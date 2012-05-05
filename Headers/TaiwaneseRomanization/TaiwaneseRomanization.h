@@ -167,6 +167,7 @@ namespace Formosa {
     		// always assumes that the given input is in all lower case
     		unsigned int findSymbol(const char *s) const;
     		unsigned int findSymbolPair(const char *s1, const char *s2) const;
+    		unsigned int findSymbolTriple(const char *s1, const char *s2, const char *s3) const;
 		
     		SyllableType _inputType;
     		DiacriticInputOption _inputOption;
