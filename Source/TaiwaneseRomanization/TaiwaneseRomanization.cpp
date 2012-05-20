@@ -558,7 +558,7 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
             
             unsigned second = FindVowel(_symvec, first + 1);
             if (second != end && _symvec[first].symbolInLowerCase() != "a") {
-                if (!(_symvec[first].symbolInLowerCase() == "e" && _symvec[second].symbolInLowerCase() == "e")) {
+                if (!(_symvec[first].symbolInLowerCase() == "e" && _symvec[second].symbolInLowerCase() == "e") && _symvec[second].symbolInLowerCase() != "i") {
                     SETLOUDEST(second);
                 }
             }
