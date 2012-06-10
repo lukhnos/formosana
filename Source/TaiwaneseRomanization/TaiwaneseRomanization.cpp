@@ -498,6 +498,7 @@ const string RomanizationSyllable::normalizedQueryData(unsigned int finalTone)
         // fprintf (stderr, "combining query data %s, tone %d\n", s._symvec[i].symbol().c_str(), s._symvec[i].tone());
     }
     
+    // TODO: Accept 1 when Hakka
     if (loudest > 1) query = query + string(1, loudest+'0');
     return query;
 }
@@ -567,13 +568,27 @@ void RomanizationSyllable::normalize(unsigned int finalTone)
         // exceptions: oa/oai, oe/oei
         first = findSymbolPair("o", "e");
         if (first != end) {
-            SETLOUDEST(first);
+            string symAfter;
+            if (first + 2 != end) {
+                symAfter = _symvec[first + 2].symbolInLowerCase();
+            }
+            
+            if (!symAfter.size() || symAfter == "nn") {
+                SETLOUDEST(first);                
+            }
         }
 
         first = findSymbolPair("o", "a");
         if (first != end) {
             if (findSymbolTriple("o", "a", "i") == end) {
-                SETLOUDEST(first);
+                string symAfter;
+                if (first + 2 != end) {
+                    symAfter = _symvec[first + 2].symbolInLowerCase();
+                }
+
+                if (!symAfter.size() || symAfter == "nn") {
+                    SETLOUDEST(first);                
+                }
             }
         }
     }

@@ -1,9 +1,13 @@
 CXXFLAGS += -I../../ExternalLibraries/OpenVanilla-Part/Headers -I../../Headers/TaiwaneseRomanization
 
-INFILES = syllist.o ../../Source/TaiwaneseRomanization/TaiwaneseRomanization.o ../../Source/TaiwaneseRomanization/VowelHelper.o 
+DEPS = ../../Source/TaiwaneseRomanization/TaiwaneseRomanization.o ../../Source/TaiwaneseRomanization/VowelHelper.o 
 
-syllist: $(INFILES)
+hakkasyllist: hakkasyllist.o $(DEPS)
+	$(CXX) -o $@ $^
+
+syllist: syllist.o $(DEPS)
 	$(CXX) -o $@ $^
 
 clean:
-	rm -f $(INFILES) syllist
+	rm -f $(DEPS) syllist hakkkasyllist
+
