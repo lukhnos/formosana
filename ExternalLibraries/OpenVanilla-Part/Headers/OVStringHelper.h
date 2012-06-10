@@ -1,7 +1,7 @@
 //
 // OVStringHelper.h
 //
-// Copyright (c) 2006-2010 Lukhnos D. Liu
+// Copyright (c) 2007-2010 Lukhnos D. Liu
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -127,22 +127,23 @@ namespace OpenVanilla {
         
         static const vector<string> Split(const string& text, char c)
         {
-            vector<string> result;
+            vector<std::string> result;
             size_t index = 0, last = 0, length = text.length();
             while (index < length) {
-                last = index;
                 while (index < length) {
                     if (text[index] == c) {
                         result.push_back(text.substr(last, index - last));
+                        last = index + 1;
                         break;
                     }
-                    index++;
-                    
-                    if (index == length && index - last)
-                        result.push_back(text.substr(last, index - last));           
+                    index++;            
                 }
 
                 index++;
+            }
+
+            if (last <= index) {
+                result.push_back(text.substr(last, index - last));           
             }
 
             return result;

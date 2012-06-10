@@ -1,7 +1,7 @@
 //
 // OVWildcard.h
 //
-// Copyright (c) 2006-2010 Lukhnos D. Liu
+// Copyright (c) 2007-2010 Lukhnos D. Liu
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
