@@ -134,7 +134,7 @@ const string RomanizationSymbol::setSymbol(const string& s)
     return (_symbol = s);
 }
 
-const string RomanizationSymbol::composedForm(bool forcePOJStyle) const
+const string RomanizationSymbol::composedForm(bool forcePOJStyle, bool usePOJLegacyOU) const
 {
     bool usePOJStyleOUAndNN = (_type == POJSyllable) || (_type == HakkaPFSSyllable) || forcePOJStyle;
     bool usePOJStyleNinthToneMark = (_type == POJSyllable);
@@ -153,7 +153,7 @@ const string RomanizationSymbol::composedForm(bool forcePOJStyle) const
         }
     }
     
-    string composed = VowelHelper::symbolForVowel(_symbol, nanTone, usePOJStyleOUAndNN, usePOJStyleNinthToneMark, composeII);
+    string composed = VowelHelper::symbolForVowel(_symbol, nanTone, usePOJStyleOUAndNN, usePOJStyleNinthToneMark, composeII, usePOJLegacyOU);
     if (!composed.length()) return _symbol;
     return composed;
 }
@@ -208,6 +208,7 @@ bool RomanizationSymbol::isUpperCase() const
 
 RomanizationSyllable::RomanizationSyllable() : _inputType(POJSyllable), _inputOption(DiacriticGivenBeforeVowel), 
 _forcePOJStyle(false),
+_usePOJLegacyOU(false),
 _cursor(0), _preparedTone(0)
 {
 }
@@ -247,6 +248,10 @@ void RomanizationSyllable::setForcePOJStyle(bool p)
     _forcePOJStyle = p;
 }
 
+void RomanizationSyllable::setUsePOJLegacyOU(bool u) {
+    _usePOJLegacyOU = u;
+}
+
 void RomanizationSyllable::clear()
 {
     _symvec.clear();
@@ -274,7 +279,7 @@ const string RomanizationSyllable::composedForm()
     
     for (i=0; i<_cursor; i++) 
     {
-        composed += _symvec[i].composedForm(_forcePOJStyle);
+        composed += _symvec[i].composedForm(_forcePOJStyle, _usePOJLegacyOU);
         // fprintf(stderr, "%d, symbol=%s, composed=%s, composd form=%s\n", i, _symvec[i].symbol().c_str(), _symvec[i].composedForm().c_str(), composed.c_str());
     }
     

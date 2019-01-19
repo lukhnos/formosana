@@ -90,7 +90,7 @@ namespace Formosa {
     		const string symbol() const;
     		const string symbolInLowerCase() const;
     		const string setSymbol(const string& s);
-    		const string composedForm(bool forcePOJStyle=false) const;
+    		const string composedForm(bool forcePOJStyle = false, bool usePOJLegacyOu = false) const;
     		unsigned int composedLength() const;
     		unsigned int tone() const;
     		unsigned int setTone(unsigned int t);
@@ -115,6 +115,7 @@ namespace Formosa {
     		virtual void setInputType(SyllableType t);
     		virtual void setInputOption(DiacriticInputOption o);
     		virtual void setForcePOJStyle(bool p);
+    		virtual void setUsePOJLegacyOU(bool u);
             virtual void clear();
             virtual bool empty() const;
             virtual unsigned int numberOfCodepoints() const;
@@ -172,6 +173,7 @@ namespace Formosa {
     		SyllableType _inputType;
     		DiacriticInputOption _inputOption;
     		bool _forcePOJStyle;
+    		bool _usePOJLegacyOU;
 		        
     		vector<RomanizationSymbol> _symvec;
     		unsigned int _cursor;

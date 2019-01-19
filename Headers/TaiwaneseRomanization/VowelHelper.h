@@ -42,7 +42,6 @@
 
 #include <string>
 #include <map>
-#include "OVUTF8Helper.h"
 
 namespace Formosa {
     namespace TaiwaneseRomanization {
@@ -58,7 +57,7 @@ namespace Formosa {
         
         class VowelHelper {
         public:
-            static const string symbolForVowel(const string& vowel, unsigned int tone, bool usePOJStyleOUAndNN, bool usePOJStyleNinthToneMark = false, bool composeII = false);
+            static const string symbolForVowel(const string& vowel, unsigned int tone, bool usePOJStyleOUAndNN, bool usePOJStyleNinthToneMark = false, bool composeII = false, bool usePOJLegacyOU = false);
 
             static char diacriticShorthandFromTone(unsigned int tone);
             static unsigned int toneFromDiacriticShorthand(char shorthand);

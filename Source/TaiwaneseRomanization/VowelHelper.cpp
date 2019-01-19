@@ -35,7 +35,7 @@ map<string, map<unsigned int, string> >* VowelHelper::c_vowelTable = 0;
 map<string, string>* VowelHelper::c_toUppercasedVowelTable = 0;
 VowelDecompositionState *VowelHelper::c_groundState = 0;
 
-const string VowelHelper::symbolForVowel(const string& vowel, unsigned int tone, bool usePOJStyleOUAndNN, bool usePOJStyleNinthToneMark, bool composeII)
+const string VowelHelper::symbolForVowel(const string& vowel, unsigned int tone, bool usePOJStyleOUAndNN, bool usePOJStyleNinthToneMark, bool composeII, bool usePOJLegacyOU)
 {
     // This singleton instantiation is not thread safe, you've been warned
     if (!c_vowelTable) {
@@ -75,7 +75,11 @@ const string VowelHelper::symbolForVowel(const string& vowel, unsigned int tone,
     
     if (lowercasedVowel == "ou" || lowercasedVowel == "oo") {
         if (usePOJStyleOUAndNN) {
-            lookupString = ((vowel[0] == 'O') ? "Q" : "q");
+            if (usePOJLegacyOU) {
+              lookupString = ((vowel[0] == 'O') ? "Q" : "q");
+            } else {
+              lookupString = ((vowel[0] == 'O') ? "Z" : "z");
+            }
         }
         else {
             lookupString = string(1, vowel[0]);
@@ -292,6 +296,16 @@ void VowelHelper::populateVowelTables()
         table["q"][8] = "o\xcc\x8d\xcd\x98";	// o̍͘
         table["q"][9] = "o\xcc\x8b\xcd\x98";	// ő͘
         table["q"][kPOJ9thTone] = "\xc5\x8f\xcd\x98";	// ŏ͘
+        table["z"][1] = "o\u0358";
+        table["z"][2] = "o\u0358\u0301";
+        table["z"][3] = "o\u0358\u0300";
+        table["z"][4] = "o\u0358";
+        table["z"][5] = "o\u0358\u0302";
+        table["z"][6] = "o\u0358\u030c";
+        table["z"][7] = "o\u0358\u0304";
+        table["z"][8] = "o\u0358\u030d";
+        table["z"][9] = "o\u0358\u030b";
+        table["z"][kPOJ9thTone] = "o\u0358\u0306";
         table["u"][1] = "u";					// u
         table["u"][2] = "\xc3\xba";				// ú
         table["u"][3] = "\xc3\xb9";				// ù
@@ -372,6 +386,16 @@ void VowelHelper::populateVowelTables()
         table["Q"][8] = "O\xcc\x8d\xcd\x98";	// O̍͘
         table["Q"][9] = "O\xcc\x8b\xcd\x98";	// Ő͘
         table["Q"][kPOJ9thTone] = "\xc5\x8e\xcd\x98";	// Ŏ͘
+        table["Z"][1] = "O\u0358";
+        table["Z"][2] = "O\u0358\u0301";
+        table["Z"][3] = "O\u0358\u0300";
+        table["Z"][4] = "O\u0358";
+        table["Z"][5] = "O\u0358\u0302";
+        table["Z"][6] = "O\u0358\u030c";
+        table["Z"][7] = "O\u0358\u0304";
+        table["Z"][8] = "O\u0358\u030d";
+        table["Z"][9] = "O\u0358\u030b";
+        table["Z"][kPOJ9thTone] = "O\u0358\u0306";
         table["U"][1] = "U";					// U
         table["U"][2] = "\xc3\x9a";				// Ú
         table["U"][3] = "\xc3\x99";				// Ù
@@ -421,7 +445,7 @@ void VowelHelper::populateVowelTables()
                 table[lower] = upper;
             }
 
-            table[vtab[lowerHead][kPOJ9thTone]] = table[vtab[upperHead][kPOJ9thTone]];
+            table[vtab[lowerHead][kPOJ9thTone]] = vtab[upperHead][kPOJ9thTone];
         }
     }
 }
